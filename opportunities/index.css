@@ -1,0 +1,62 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#page-title {
+    width: 100%;
+    font-size: 38px;
+    max-width: 800px;
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+#opportunities {
+    width: 100%;
+    max-width: 800px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#opportunities li {
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px solid rgb(209, 217, 224, 0.7);
+    border-radius: 10px;
+}
+
+#opportunities li p {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+#opportunities li p b {
+    font-size: 16px;
+}
+
+#opportunities li button {
+    height: 36px;
+    width: 130px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 400;
+    transition: opacity 0.2s ease;
+    background: linear-gradient(to right, #6e2287 0%, #ae3096 73%, #c7359b 100%);
+    color: #ffffff;
+}
+
+#opportunities li button:hover {
+    cursor: pointer;
+    opacity: 0.85;
+}
+
+.opportunity-details {
+    display: flex;
+    justify-content: space-between;
+}
