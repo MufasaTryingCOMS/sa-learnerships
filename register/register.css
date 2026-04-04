@@ -1,0 +1,147 @@
+#error-message {
+    display: none;
+}
+
+h1 {
+    margin-bottom: 16px;
+    line-height: 28px;
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+}
+
+.description {
+    line-height: 23px;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 14px;
+    color: #666666;
+    text-align: center;
+}
+
+form {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #555555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left;
+    margin-bottom: 6px;
+}
+
+input {
+    width: 100%;
+    padding: 12px 50px;
+    background-color: #ffffff;
+    border: 1.5px solid #1a6b7232;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+input:focus {
+    border-color: #ae3096;
+}
+
+.input-group {
+    margin-bottom: 16px;
+}
+
+button {
+    height: 40px;
+    width: 100%;
+    margin-top: 20px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: opacity 0.2s ease;
+    background: linear-gradient(to right, #6e2287 0%, #ae3096 73%, #c7359b 100%);
+    color: #ffffff;
+}
+
+button:hover {
+    opacity: 0.85;
+    cursor: pointer;
+}
+
+img {
+    box-sizing: content-box;
+}
+
+
+.input-group .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.wrapper {
+    height: 100%;
+    width: 100%;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-group .left-icon {
+    width: 18px;
+    height: 18px;
+    padding-right: 10px;
+    position: absolute;
+    left: 12px;
+    opacity: 0.5;
+    border-right: 1.5px solid black;
+}
+
+.input-group .toggle-password {
+    position: absolute;
+    right: 12px;       
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    opacity: 0.5;
+    cursor: pointer;
+    background: none;
+}
+
+
+
+.wrapper form {
+    width: 100%;
+}
+
+.wrapper article {
+    width: 420px;
+}
+
+.error-message {
+    font-family: 'Inter', sans-serif;
+    line-height: 13px;
+    font-size: 13px;
+    color: #e63946;
+    text-align: left;
+}
