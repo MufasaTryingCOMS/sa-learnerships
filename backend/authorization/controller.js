@@ -38,7 +38,7 @@ exports.register = async (req,res) =>{
     try{
         const firstName = req.body.firstName;
         const lastName = req.body.lastName;
-        const password = req.body.firstName;
+        const password = req.body.password;
         const email = req.body.email;
         const confirmPassword = req.body.confirmPassword;
 
@@ -61,7 +61,7 @@ exports.register = async (req,res) =>{
         }
 
         if (!isStrong(password)){
-            return res.status(400).json({error: "Password is too wear. It must include at least one uppercase letter, one lowercase letter, one digit and one special symbol"});
+            return res.status(400).json({error: "Password is too weak. It must include at least one uppercase letter, one lowercase letter, one digit and one special symbol"});
         }
 
         const hashedPassword = await hashPassword(password);
@@ -74,7 +74,7 @@ exports.register = async (req,res) =>{
         });
         res.status(201).json({
             success:true,
-            user: {id:user._id, username: user.firstName, lastName: user.lastName, email:user.email}
+            user: {id:user._id, firstName: user.firstName, lastName: user.lastName, email:user.email}
         });
 
     }catch(err){
