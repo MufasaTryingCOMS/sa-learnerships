@@ -117,19 +117,6 @@ img {
     border-right: 1.5px solid black;
 }
 
-.input-group .toggle-password {
-    position: absolute;
-    right: 12px;       
-    transform: translateY(-50%);
-    width: 18px;
-    height: 18px;
-    opacity: 0.5;
-    cursor: pointer;
-    background: none;
-}
-
-
-
 .wrapper form {
     width: 100%;
 }
@@ -150,7 +137,8 @@ img {
     font-family: 'Inter', sans-serif;
     line-height: 13px;
     font-size: 13px;
-    color: #2d6a4f; /* green */
+    color: #2d6a4f; 
     text-align: left;
     margin-top: 5px;
 }
+

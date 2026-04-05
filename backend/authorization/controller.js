@@ -1,31 +1,7 @@
 const User = require('../common/models/User');
 const bcryptjs = require('bcryptjs');
 
-
-function isStrong(password){
-    let hasLowercase = false;
-    let hasUppercase = false;
-    let hasDigit = false;
-    let specialSymbols = ['!','@','#','$','%','&','*'];
-    let hasSpecialSymbols = false;
-
-    for (let x of password){
-        if (x >= 'A' && x <= 'Z'){
-            hasUppercase = true;
-        }
-        else if (x >= 'a' && x <= 'z'){
-            hasLowercase = true;
-        }
-        else if ( x >='0' && x <= '9'){
-            hasDigit = true;
-        }
-        else if (specialSymbols.includes(x)){
-            hasSpecialSymbols = true;
-        }
-    }
-    
-    return hasUppercase && hasLowercase && hasDigit && hasSpecialSymbols;
-}
+import {isStrong} from '../scripts/common_functions.js';
 
 async function hashPassword(password){
     const salt = await bcryptjs.genSalt(10);
