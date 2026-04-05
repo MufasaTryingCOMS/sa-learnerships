@@ -145,3 +145,12 @@ img {
     color: #e63946;
     text-align: left;
 }
+
+#success-message {
+    font-family: 'Inter', sans-serif;
+    line-height: 13px;
+    font-size: 13px;
+    color: #2d6a4f; /* green */
+    text-align: left;
+    margin-top: 5px;
+}
