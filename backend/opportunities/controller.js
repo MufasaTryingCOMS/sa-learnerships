@@ -10,6 +10,7 @@ exports.createOpportunity = async (req, res) => {
 
         const title = req.body.title;
         const description = req.body.description;
+        const requirements = req.body.requirements;
         const location = req.body.location;
         const closingDate = req.body.closingDate;
         const stipend = req.body.stipend;
@@ -32,6 +33,7 @@ exports.createOpportunity = async (req, res) => {
         const opportunity = await Opportunity.create({
             title,
             description,
+            requirements,
             location,
             closingDate,
             stipend,
@@ -48,6 +50,7 @@ exports.createOpportunity = async (req, res) => {
             id: opportunity._id,
             title: opportunity.title,
             description: opportunity.description,
+            requirements: opportunity.requirements,
             location: opportunity.location,
             closingDate: opportunity.closingDate,
             stipend: opportunity.stipend,
@@ -102,6 +105,7 @@ exports.getOpportunity = async (req, res) => {
         res.status(200).json({
             id: opportunity._id,
             title: opportunity.title,
+            requirements: opportunity.requirements,
             description: opportunity.description,
             location: opportunity.location,
             closingDate: opportunity.closingDate,

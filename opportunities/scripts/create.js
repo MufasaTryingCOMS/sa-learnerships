@@ -1,12 +1,15 @@
 const form = document.getElementById('create-opportunity-form');
 const title = document.getElementById('title');
 const description = document.getElementById('description');
+const requirements = document.getElementById('requirements');
+const allRequirements = document.getElementsByClassName('requirement');
 const stipend = document.getElementById('stipend');
 const duration = document.getElementById('duration');
 const locationElement = document.getElementById('location');
 const closingDate = document.getElementById('closing-date');
 const errorMessage = document.getElementById('error-message');
 const submitBtn = document.getElementById('submit-btn');
+const addRequirementsBtn = document.getElementById('add-requirement-btn');
 
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -27,6 +30,12 @@ form.addEventListener('submit', async (event) => {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Loading...';
 
+    const reqList = [];
+
+    for (let i = 0; i < allRequirements.length; i++) {
+        reqList.push(allRequirements[i].value);
+    }
+
     try {
         const response = await fetch('http://localhost:3000/opportunities', {
             method: 'POST',
@@ -35,6 +44,7 @@ form.addEventListener('submit', async (event) => {
                 title: title.value,
                 closingDate: closingDate.value,
                 description: description.value,
+                requirements: reqList,
                 duration: duration.value,
                 stipend: stipend.value,
                 location: locationElement.value,
@@ -53,4 +63,8 @@ form.addEventListener('submit', async (event) => {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit for review';
     }
+});
+
+addRequirementsBtn.addEventListener('click', () => {
+    requirements.insertAdjacentHTML('beforeend', '<li><input type="text" class="requirement" /></li>');
 });

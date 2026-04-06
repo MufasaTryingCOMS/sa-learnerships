@@ -24,6 +24,14 @@ form button {
     color: #ffffff;
 }
 
+#requirements {
+    list-style: none;
+}
+
+#requirements li {
+    padding: 4px 0px;
+}
+
 #add-requirement-btn {
     width: 200px;
     margin: 10px 0px;

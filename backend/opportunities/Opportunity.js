@@ -8,6 +8,7 @@ const opportunitySchema = new Schema({
         required: [true, 'Title required! Please provide the title of the opportunity'],
         trim: true,
     },
+    requirements: { type: [String] },
     description: { type: String, trim: true },
     location: { type: String, trim: true },
     closingDate: {
