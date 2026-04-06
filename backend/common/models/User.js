@@ -10,7 +10,7 @@ const userSchema = new Schema({
     email: {type:String, required:true, unique:true, lowercase:true, trim:true},
     password: {type: String, required:true},
     roles: {type: [String], default: ['Applicant']},
-    craetedAt: {type:Date, default: Date.now}
+    createdAt: {type:Date, default: Date.now}
 });
 
 const User = model('User', userSchema);

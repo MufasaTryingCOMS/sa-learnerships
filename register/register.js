@@ -12,7 +12,7 @@ import {isStrong} from '../scripts/common_functions.js';
 
 form.addEventListener('submit', async(event)=>{
     event.preventDefault();
-     errorMessage.style.display = "nones";
+     errorMessage.style.display = "none";
 
     if (password.value !== confirmPassword.value){
         confirmPassword.style.border = "2px solid red";
