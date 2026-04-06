@@ -10,9 +10,17 @@
     </head>
     <body>
         <h2 id="page-title">Create Opportunity</h2>
+        <p id="page-description">
+            Fill in details of the opportunity you want to create. All fields marked with * are required. Please note
+            that your opportunity will only be able to receive applications after a successful review by our
+            administrators
+        </p>
         <form>
             <section class="input-group">
-                <label for="title">Title:</label>
+                <section class="required-group">
+                    <label for="title">Title:</label>
+                    <p>*</p>
+                </section>
                 <section class="input-wrapper">
                     <input type="text" id="title" name="title" placeholder="Enter the title of the opportunity" />
                 </section>
@@ -57,7 +65,10 @@
                     </section>
                 </section>
                 <section class="input-group">
-                    <label for="closing-date">Closing Date:</label>
+                    <section class="required-group">
+                        <label for="closing-date">Closing Date:</label>
+                        <p>*</p>
+                    </section>
                     <section class="input-wrapper">
                         <input type="date" id="closing-date" name="closing-date" />
                     </section>

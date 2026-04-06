@@ -1,3 +1,10 @@
+#page-description {
+    margin: 20px 0px;
+    max-width: 800px;
+    font-size: 16px;
+    color: #555555;
+}
+
 form {
     width: 100%;
     max-width: 800px;
@@ -16,6 +23,20 @@ form button {
 #add-requirement-btn {
     width: 200px;
     margin: 10px 0px;
+}
+
+.required-group {
+    display: flex;
+}
+
+.required-group label {
+    margin-right: 2px;
+}
+
+.required-group p {
+    line-height: 16px;
+    font-size: 16px;
+    color: #e63946;
 }
 
 .details-group {
@@ -81,8 +102,7 @@ textarea:focus {
 
 .error-message {
     margin-top: 10px;
-    font-family: 'Inter', sans-serif;
-    line-height: 13px;
+    line-height: 16px;
     font-size: 16px;
     color: #e63946;
     text-align: center;
