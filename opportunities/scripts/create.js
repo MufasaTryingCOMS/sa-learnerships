@@ -34,13 +34,13 @@ form.addEventListener('submit', async (event) => {
         });
 
         if (response.status === 201) {
-            // TODO: Navigate the user to a successful opportunity creation page
-            console.log(await response.json());
+            const data = await response.json();
+            window.location.href = `/opportunities/view.html?id=${data.id}`;
         }
     } catch (error) {
         errorMessage.style.display = 'block';
-        errorMessage.textContent = 'Server error';
-        console.error('Login error:', err);
+        errorMessage.innerHTML = 'An error occurred! Please try again later';
+        console.error('Create opportunity error:', error);
     } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit for review';

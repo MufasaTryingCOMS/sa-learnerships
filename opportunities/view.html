@@ -1,0 +1,55 @@
+<!-- This page is for viewing an opportunity so it needs the id to function accordingly  -->
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title id="page-title">View Opportunity</title>
+        <link rel="stylesheet" href="../styles/index.css" />
+        <link rel="stylesheet" href="./styles/view.css" />
+    </head>
+    <body>
+        <section id="page-state"></section>
+        <section id="details-container">
+            <header>
+                <h2 id="title"></h2>
+                <p id="status" class="pending"></p>
+            </header>
+            <section id="description-container">
+                <h3>Description:</h3>
+                <p id="description"></p>
+            </section>
+            <section id="requirements-container">
+                <h3>Requirements:</h3>
+                <ul id="requirements"></ul>
+            </section>
+            <section id="details-wrapper">
+                <section id="stipend-container">
+                    <h3>Stipend:</h3>
+                    <p id="stipend"></p>
+                </section>
+                <section id="duration-container">
+                    <h3>Duration:</h3>
+                    <p id="duration"></p>
+                </section>
+            </section>
+            <section id="details-wrapper">
+                <section id="location-container">
+                    <h3>Location:</h3>
+                    <p id="location"></p>
+                </section>
+                <section id="closing-date-contianer">
+                    <h3>Closing Date:</h3>
+                    <p id="closing-date"></p>
+                </section>
+            </section>
+            <!-- Actions that should only be visible to the admin -->
+            <hr />
+            <section id="actions">
+                <button id="approve-btn">Approve</button>
+                <button id="remove-btn">Remove</button>
+            </section>
+        </section>
+        <script src="./scripts/view.js"></script>
+    </body>
+</html>
