@@ -1,4 +1,4 @@
-export function isStrong(password){
+function isStrong(password){
     let hasLowercase = false;
     let hasUppercase = false;
     let hasDigit = false;
@@ -22,5 +22,5 @@ export function isStrong(password){
 
     return hasLowercase && hasUppercase && hasDigit && HasSpecialSymbols;   
 }
-
+module.exports = { isStrong};
 
