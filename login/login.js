@@ -22,7 +22,7 @@ form.addEventListener('submit', async function (event) {
     }
     
     loginButton.disabled = true;
-    loginButton.textContent = "Logging in...";
+    loginButton.textContent = "Logging in";
 
     try{
         const response = await fetch('http://localhost:3000/login',{
