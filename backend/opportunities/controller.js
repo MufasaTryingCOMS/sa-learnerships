@@ -59,3 +59,36 @@ exports.createOpportunity = async (req, res) => {
         console.log(error);
     }
 };
+
+exports.getOpportunity = async (req, res) => {
+    try {
+        if (!req.params || !req.params.id) {
+            return res.status(400).json({
+                error: 'Opportunity id required! Please provide a valid opportunity id',
+            });
+        }
+
+        // TODO: Catch the mongoose cast / invalid id exception
+        const opportunity = await Opportunity.findById(req.params.id);
+
+        if (!opportunity) {
+            return res.status(400).json({
+                error: 'Opportunity not found! Please check your id and try again',
+            });
+        }
+
+        res.status(201).json({
+            id: opportunity._id,
+            title: opportunity.title,
+            location: opportunity.location,
+            closingDate: opportunity.closingDate,
+            stipend: opportunity.stipend,
+            createdAt: opportunity.createdAt,
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: 'Something went wrong! Please try again later',
+        });
+        console.log(error);
+    }
+};
