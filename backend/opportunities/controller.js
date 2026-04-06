@@ -50,8 +50,29 @@ exports.createOpportunity = async (req, res) => {
             location: opportunity.location,
             closingDate: opportunity.closingDate,
             stipend: opportunity.stipend,
+            status: opportunity.status,
             createdAt: opportunity.createdAt,
         });
+    } catch (error) {
+        res.status(500).json({
+            error: 'Something went wrong! Please try again later',
+        });
+        console.log(error);
+    }
+};
+
+exports.getAllOpportunities = async (req, res) => {
+    try {
+        if (!req.query || !req.query.status) {
+            return res.status(400).json({
+                error: 'Status required! Please provide the status of the opportunities',
+            });
+        }
+
+        const opportunities = await Opportunity.find({ status: req.query.status });
+        // No need to perform any checks because the above query always returns an array
+
+        res.status(200).json({ opportunities });
     } catch (error) {
         res.status(500).json({
             error: 'Something went wrong! Please try again later',
@@ -83,6 +104,7 @@ exports.getOpportunity = async (req, res) => {
             location: opportunity.location,
             closingDate: opportunity.closingDate,
             stipend: opportunity.stipend,
+            status: opportunity.status,
             createdAt: opportunity.createdAt,
         });
     } catch (error) {

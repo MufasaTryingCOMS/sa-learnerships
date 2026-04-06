@@ -16,6 +16,7 @@ const opportunitySchema = new Schema({
     },
     stipend: { type: Number, min: 0 },
     duration: { type: Number, min: 0 },
+    status: { type: String, default: 'Pending' },
     createdAt: { type: Date, default: Date.now },
 });
 
