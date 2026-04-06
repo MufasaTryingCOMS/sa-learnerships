@@ -98,7 +98,7 @@ exports.getOpportunity = async (req, res) => {
             });
         }
 
-        res.status(201).json({
+        res.status(200).json({
             id: opportunity._id,
             title: opportunity.title,
             location: opportunity.location,
