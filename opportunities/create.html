@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>New Opportunity</title>
+        <link rel="stylesheet" href="../styles/index.css" />
+        <link rel="stylesheet" href="./styles/common.css" />
+        <link rel="stylesheet" href="./styles/create.css" />
+    </head>
+    <body>
+        <h2 id="page-title">Create Opportunity</h2>
+        <form>
+            <section class="input-group">
+                <label for="title">Title:</label>
+                <section class="input-wrapper">
+                    <input type="text" id="title" name="title" placeholder="Enter the title of the opportunity" />
+                </section>
+            </section>
+            <section class="input-group">
+                <label for="description">Description:</label>
+                <section class="input-wrapper">
+                    <textarea id="description" name="description"> </textarea>
+                </section>
+            </section>
+            <section>
+                <h4>Opportunity requirements:</h4>
+                <ul>
+                    <input type="text" class="requirement" />
+                </ul>
+                <button id="add-requirement-btn">Add requirement</button>
+            </section>
+            <section class="details-group">
+                <section class="input-group">
+                    <label for="stipend">Stipend:</label>
+                    <section class="input-wrapper">
+                        <input type="text" id="stipend" name="stipend" placeholder="Enter the stipend in rands" />
+                    </section>
+                </section>
+                <section class="input-group">
+                    <label for="duration">Duration:</label>
+                    <section class="input-wrapper">
+                        <input type="text" id="duration" name="duration" placeholder="Enter the duration in months" />
+                    </section>
+                </section>
+            </section>
+            <section class="details-group">
+                <section class="input-group">
+                    <label for="location">Location:</label>
+                    <section class="input-wrapper">
+                        <input
+                            type="text"
+                            id="location"
+                            name="location"
+                            placeholder="Enter the location of the opportunity "
+                        />
+                    </section>
+                </section>
+                <section class="input-group">
+                    <label for="closing-date">Closing Date:</label>
+                    <section class="input-wrapper">
+                        <input type="date" id="closing-date" name="closing-date" />
+                    </section>
+                </section>
+            </section>
+            <p class="error-message">An error has occurred... Debug there</p>
+            <button>Submit for review</button>
+        </form>
+    </body>
+</html>

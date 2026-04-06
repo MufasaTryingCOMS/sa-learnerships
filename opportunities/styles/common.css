@@ -4,6 +4,22 @@ body {
     align-items: center;
 }
 
+button {
+    height: 36px;
+    padding: 0px 30px;
+    margin-top: 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 400;
+    transition: opacity 0.2s ease;
+}
+
+button:hover {
+    cursor: pointer;
+    opacity: 0.85;
+}
+
 #page-title {
     width: 100%;
     font-size: 38px;
@@ -36,22 +52,6 @@ body {
 
 #opportunities li p b {
     font-size: 16px;
-}
-
-#opportunities li button {
-    height: 36px;
-    width: 130px;
-    margin-top: 24px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: 400;
-    transition: opacity 0.2s ease;
-}
-
-#opportunities li button:hover {
-    cursor: pointer;
-    opacity: 0.85;
 }
 
 .opportunity-details {
