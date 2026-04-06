@@ -19,6 +19,7 @@ form.addEventListener('submit', async (event) => {
         return;
     }
 
+    errorMessage.style.display = 'none';
     submitBtn.disabled = true;
     submitBtn.textContent = 'Loading...';
 
