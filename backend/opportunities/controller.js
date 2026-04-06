@@ -47,6 +47,7 @@ exports.createOpportunity = async (req, res) => {
         res.status(201).json({
             id: opportunity._id,
             title: opportunity.title,
+            description: opportunity.description,
             location: opportunity.location,
             closingDate: opportunity.closingDate,
             stipend: opportunity.stipend,
@@ -101,6 +102,7 @@ exports.getOpportunity = async (req, res) => {
         res.status(200).json({
             id: opportunity._id,
             title: opportunity.title,
+            description: opportunity.description,
             location: opportunity.location,
             closingDate: opportunity.closingDate,
             stipend: opportunity.stipend,

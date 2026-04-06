@@ -32,15 +32,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             title.innerHTML = data.title;
             statusElement.innerHTML = data.status;
 
-            if (data.description) {
-                descriptionContainer.style.display = 'block';
-                description.innerHTML = data.description;
-            }
+            if (data.description) description.innerHTML = data.description;
+            else description.innerHTML = 'Not Provided';
 
             if (data.location) locationElement.innerHTML = data.location;
+            else locationElement.innerHTML = 'Not Provided';
+
             if (data.stipend) stipend.innerHTML = 'R ' + data.stipend + ' pm';
+            else stipend.innerHTML = 'Not Provided';
+
             if (data.duration) duration.innerHTML = data.duration + ' months';
+            else duration.innerHTML = 'Not Provided';
+
             if (data.closingDate) closingDate.innerHTML = data.closingDate;
+            else closingDate.innerHTML = 'Not Provided';
         } else {
             pageState.style.display = 'flex';
             pageState.innerHTML = data.error;

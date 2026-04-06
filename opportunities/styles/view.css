@@ -46,10 +46,6 @@ p {
     line-height: 22px;
 }
 
-#description-container {
-    display: none;
-}
-
 #description {
     margin-bottom: 30px;
 }

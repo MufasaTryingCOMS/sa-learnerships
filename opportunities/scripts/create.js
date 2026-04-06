@@ -1,5 +1,9 @@
 const form = document.getElementById('create-opportunity-form');
 const title = document.getElementById('title');
+const description = document.getElementById('description');
+const stipend = document.getElementById('stipend');
+const duration = document.getElementById('duration');
+const locationElement = document.getElementById('location');
 const closingDate = document.getElementById('closing-date');
 const errorMessage = document.getElementById('error-message');
 const submitBtn = document.getElementById('submit-btn');
@@ -30,6 +34,10 @@ form.addEventListener('submit', async (event) => {
             body: JSON.stringify({
                 title: title.value,
                 closingDate: closingDate.value,
+                description: description.value,
+                duration: duration.value,
+                stipend: stipend.value,
+                location: locationElement.value,
             }),
         });
 
