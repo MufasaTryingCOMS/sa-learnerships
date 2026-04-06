@@ -131,3 +131,34 @@ exports.getOpportunity = async (req, res) => {
 // which you can use by sending a request to '/opportunites?status=Pending' for example. Status can be pending or approved so the list
 // of all such is one where opportunities have a status of 'approved'
 // So you should basically add 2 routes here, one for updating of an opportunity and one for deleting an opportunity
+
+exports.approveOpportunity = async (req, res) => {
+    try {
+        if (!req.params || !req.params.id) {
+            return res.status(400).json({
+                error: 'Opportunity id required! Please provide a valid opportunity id',
+            });
+        }
+
+        const opportunity = await Opportunity.findById(req.params.id);
+        if (!opportunity) {
+            return res.status(400).json({
+                error: 'Opportunity not found! Please check your id and try again', 
+            });
+        }
+
+        opportunity.status = 'Approved';
+        await opportunity.save();
+        res.status(200).json({
+            message: 'Opportunity approved successfully!',
+        });
+    }   
+    catch (error) {
+        res.status(500).json({ 
+            error: 'Something went wrong! Please try again later',
+        });
+        console.log(error);
+    }  
+};
+
+

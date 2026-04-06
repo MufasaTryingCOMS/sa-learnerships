@@ -9,5 +9,7 @@ const getAllOpportunities = opportunitiesController.getAllOpportunities;
 router.post('', createOpportunity);
 router.get('', getAllOpportunities);
 router.get('/:id', getOpportunity);
+router.post('/:id/approve', opportunitiesController.approveOpportunity );  
+
 
 module.exports = router;
