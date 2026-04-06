@@ -26,6 +26,12 @@ form.addEventListener('submit', async (event) => {
         return;
     }
 
+    if (allRequirements.length == 0) {
+        errorMessage.style.display = 'block';
+        errorMessage.innerHTML = 'At least one requirement is required';
+        return;
+    }
+
     errorMessage.style.display = 'none';
     submitBtn.disabled = true;
     submitBtn.textContent = 'Loading...';

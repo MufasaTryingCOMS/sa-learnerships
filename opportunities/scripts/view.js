@@ -49,6 +49,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (data.closingDate) closingDate.innerHTML = data.closingDate.slice(0, 10);
             else closingDate.innerHTML = 'Not Provided';
+
+            data.requirements.forEach((item) => {
+                requirements.innerHTML += `<li><p>${item}</p></li>`;
+            });
         } else {
             pageState.style.display = 'flex';
             pageState.innerHTML = data.error;
