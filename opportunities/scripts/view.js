@@ -1,5 +1,6 @@
 const pageState = document.getElementById('page-state');
 const detailsContainer = document.getElementById('details-container');
+const pageTitle = document.getElementById('page-title');
 const title = document.getElementById('title');
 const statusElement = document.getElementById('status');
 const descriptionContainer = document.getElementById('description-container');
@@ -29,6 +30,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (response.ok) {
             detailsContainer.style.display = 'block';
+
+            pageTitle.innerHTML = 'Opportunity | ' + data.title;
             title.innerHTML = data.title;
             statusElement.innerHTML = data.status;
 
@@ -44,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (data.duration) duration.innerHTML = data.duration + ' months';
             else duration.innerHTML = 'Not Provided';
 
-            if (data.closingDate) closingDate.innerHTML = data.closingDate;
+            if (data.closingDate) closingDate.innerHTML = data.closingDate.slice(0, 10);
             else closingDate.innerHTML = 'Not Provided';
         } else {
             pageState.style.display = 'flex';
