@@ -15,7 +15,7 @@
             that your opportunity will only be able to receive applications after a successful review by our
             administrators
         </p>
-        <form>
+        <form id="create-opportunity-form">
             <section class="input-group">
                 <section class="required-group">
                     <label for="title">Title:</label>
@@ -36,7 +36,7 @@
                 <ul>
                     <input type="text" class="requirement" />
                 </ul>
-                <button id="add-requirement-btn">Add requirement</button>
+                <button type="button" id="add-requirement-btn">Add requirement</button>
             </section>
             <section class="details-group">
                 <section class="input-group">
@@ -74,8 +74,9 @@
                     </section>
                 </section>
             </section>
-            <p class="error-message">An error has occurred... Debug there</p>
-            <button>Submit for review</button>
+            <p id="error-message">An error has occurred... Debug there</p>
+            <button id="submit-btn" type="submit">Submit for review</button>
         </form>
+        <script src="./scripts/create.js"></script>
     </body>
 </html>
