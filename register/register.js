@@ -118,7 +118,7 @@ async function receiveGoogleToken(res){
         if (data.success){
 
             const successMessage = document.getElementById('success-message');
-            successMessage.textContent = "Registered successfully with Google";
+            successMessage.textContent = data.message;
             successMessage.style.display = "block";
             
             setTimeout(()=>{
@@ -127,7 +127,7 @@ async function receiveGoogleToken(res){
             
         }
         else{
-            errorMessage.textContent = data.error || "Google register failed!";
+            errorMessage.textContent = data.message || "Google register failed!";
             errorMessage.style.display = "block";
         }
 
@@ -143,12 +143,5 @@ async function receiveGoogleToken(res){
 
 google.accounts.id.renderButton(
     document.getElementById("google-btn-container"),
-    { theme: "outline", size: "large" }
+    { theme: "outline", size: "medium" , text :"Register With Google"}
 );
-
-googleBtn.addEventListener('click', (event) => {
-    event.preventDefault();
-
-    const googleButton = document.querySelector("#google-btn-container div[role='button']");
-    if (googleButton) googleButton.click();
-});

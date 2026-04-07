@@ -143,16 +143,6 @@ img {
 }
 
 
-#register-google {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: center;
-  height: 40px;
-  width: 100%;
-}
-
-#register-google img{
-    width: 20px;
-    height: 20px;
+#redirect-text{
+    margin-bottom: 50px;
 }
