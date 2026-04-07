@@ -84,14 +84,20 @@ exports.registerGoogle = async(req,res)=>{
             if (!userExists.googleId){
                 userExists.googleId = googleId;
                 await userExists.save();
-            }
-
-            return res.status(200).json({
+                return res.status(200).json({
                 success: true,
-                message : "Linked googleId to existing user",
+                message : "Linked Google Id to existing user",
                 user: { id: userExists._id, firstName: userExists.firstName, lastName: userExists.lastName, email: userExists.email}
             });
+            }
+            else if (userExists.googleId){
+                return res.status(400).json({
+                    success: false,
+                    message : "User And Google Id Already Exist"
+                })
+            }
 
+        
         }
 
         const user = await User.create({
@@ -104,6 +110,7 @@ exports.registerGoogle = async(req,res)=>{
 
         return res.status(201).json({
             success:true,
+            message: "User registered successfully with Google",
             user: {id:user._id, firstName: user.firstName, lastName: user.lastName, email:user.email}
         });
 
