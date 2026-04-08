@@ -38,21 +38,26 @@ form.addEventListener('submit', async function (event) {
     
         const data = await response.json();
         if (data.success){
-            if (rememberMe && rememberMe.checked) {
-                localStorage.setItem('rememberedEmail', email.value);
-                localStorage.setItem('rememberMeChecked', 'true');
-            } else {
-                localStorage.removeItem('rememberedEmail');
-                localStorage.setItem('rememberMeChecked', 'false');
+            if(data.token){
+                
+                if (rememberMe && rememberMe.checked) {
+                    localStorage.setItem('jwtToken', data.token);
+                    localStorage.setItem('rememberedEmail', email.value);
+                    localStorage.setItem('rememberMeChecked', 'true');
+                } else {
+                    sessionStorage.setItem('jwtToken', data.token);
+                    localStorage.removeItem('rememberedEmail');
+                    localStorage.setItem('rememberMeChecked', 'false');
+                }
+                
+                sessionStorage.setItem('userId', data.user.id);
+                sessionStorage.setItem('username', data.user.firstName);
+                sessionStorage.setItem('userEmail', data.user.email);
+                sessionStorage.setItem('isLoggedIn', 'true');
+                setTimeout(()=>{
+                    window.location.href = "dashboard.html"; 
+                }, 3000);
             }
-            
-            sessionStorage.setItem('userId', data.user.id);
-            sessionStorage.setItem('username', data.user.firstName);
-            sessionStorage.setItem('userEmail', data.user.email);
-            sessionStorage.setItem('isLoggedIn', 'true');
-             setTimeout(()=>{
-                window.location.href = ""; //I will handle navigation once the required page has been created:)
-            }, 3000);
         }
         
         else{
