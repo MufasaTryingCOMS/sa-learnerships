@@ -121,7 +121,6 @@ exports.updateUser = async (req, res) => {
             { new: true, runValidators: true }
         ).select("-password");
 
-        //check if user exists
         if (!updatedUser) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -136,19 +135,21 @@ exports.updateUser = async (req, res) => {
 //deleting user from system...i suggest changing this to just blocking the user instead of deleting because we might need the data for future reference but for now i will just do delete
 exports.deleteUser = async (req, res) => {
     try {
-        const deletedUser = await User.findByIdAndDelete(req.params.id);
-
-        //check if user exists first
-        if (!deletedUser) {
+        const updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            { status: "Inactive" },
+            { new: true }
+        );
+        //check if user exists first before sending response
+        if (!updatedUser) {
             return res.status(404).json({ message: "User not found" });
         }
-
-        res.json({
-            message: "User deleted successfully",
-            id: deletedUser._id
+          res.json({
+            message: "User set to inactive successfully",
+            user: updatedUser
         });
-
-    } catch (error) {
+        } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
