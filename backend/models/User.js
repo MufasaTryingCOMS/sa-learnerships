@@ -26,7 +26,8 @@ const userSchema = new mongoose.Schema(
       enum: ["applicant", "provider", "admin"],
       default: "applicant",
     },
-
+    //this is the status that we can be use to block or unblock users 
+    // instead of deleting them because we might need the data for future reference
     status: {
       type: String,
       enum: ["active", "inactive", "blocked"],
