@@ -139,7 +139,7 @@ exports.deleteUser = async (req, res) => {
         const id = req.params.id;
 
         const user = await User.findByIdAndUpdate(id, {
-            status: "Disabled"
+            status: "disabled"
         }, { new: true });
 
         if (!user) {

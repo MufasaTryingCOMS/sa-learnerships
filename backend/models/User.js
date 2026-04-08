@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
     // instead of deleting them because we might need the data for future reference
     status: {
       type: String,
-      enum: ["active", "inactive", "blocked"],
+enum: ["active", "inactive", "disabled"],
       default: "active",
     },
 
