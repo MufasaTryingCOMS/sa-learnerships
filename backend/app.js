@@ -1,19 +1,33 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const connectDatabase = require('./config/database');
-const userRoutes = require('./routes/userRoutes');
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+require("dotenv").config();
 
-dotenv.config();
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
-app.use(express.json());
+// middleware
 app.use(cors());
+app.use(express.json());
 
-connectDatabase();
+// serve static files (if you use frontend in /public)
+app.use(express.static("public"));
 
-app.use('/api/users', userRoutes);
+// routes
+app.use("/api/users", userRoutes);
 
-const PORT = process.env.SERVER_PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// connect database and start server
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log("MongoDB connected");
+
+        const PORT = process.env.SERVER_PORT || 3000;
+
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    })
+    .catch((err) => {
+        console.error("Database connection failed:", err.message);
+    });
