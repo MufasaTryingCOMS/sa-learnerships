@@ -1,0 +1,119 @@
+body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#page-state {
+    width: 100%;
+    height: 100vh;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    display: flex;
+    align-items: center;
+}
+
+#status {
+    padding: 6px 30px;
+    border-radius: 10px;
+}
+
+#details-container {
+    width: 100%;
+    max-width: 800px;
+    display: none;
+}
+
+#title {
+    width: 100%;
+    font-size: 38px;
+    max-width: 800px;
+    padding: 30px 0px;
+}
+
+h3 {
+    margin-bottom: 6px;
+    font-size: 18px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 22px;
+}
+
+#description {
+    margin-bottom: 30px;
+}
+
+#requirements {
+    padding-left: 30px;
+    margin-bottom: 30px;
+}
+
+#requirements li {
+    margin-bottom: 6px;
+}
+
+#details-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#details-wrapper section {
+    width: 50%;
+    margin-bottom: 30px;
+    display: flex;
+}
+
+#details-wrapper section h3 {
+    margin: 0px;
+}
+
+#details-wrapper section p {
+    margin-left: 10px;
+    margin-top: 2px;
+}
+
+hr {
+    margin: 10px 0px;
+    border: 1px solid #1a6b7232;
+}
+
+#actions {
+    display: flex;
+}
+
+button {
+    width: 50%;
+    height: 36px;
+    padding: 0px 30px;
+    margin-top: 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 400;
+    transition: opacity 0.2s ease;
+}
+
+button:hover {
+    cursor: pointer;
+    opacity: 0.85;
+}
+
+#remove-btn {
+    border: 2px solid #6e2287;
+    color: #6e2287;
+    background-color: rgb(255, 255, 255);
+}
+
+#approve-btn {
+    margin-right: 10px;
+    background: linear-gradient(to right, #6e2287 0%, #ae3096 73%, #c7359b 100%);
+    color: #ffffff;
+}
