@@ -5,7 +5,8 @@ const lastName = document.getElementById('lastName');
 const email = document.getElementById('email');
 const password = document.getElementById('newPassword');
 const confirmPassword = document.getElementById('confirmPassword');
-const googleBtn = document.getElementById('register-google');
+
+
 
 google.accounts.id.initialize({
     client_id: "540897393879-so4uoeddh7jvu1delkd6ear8t7t9v0dt.apps.googleusercontent.com",
@@ -135,7 +136,6 @@ async function receiveGoogleToken(res){
         errorMessage.style.display = "block";
         errorMessage.textContent = err.message;
     }
-
 
 
 

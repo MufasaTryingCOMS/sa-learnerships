@@ -53,10 +53,14 @@ exports.register = async (req,res) =>{
             password:hashedPassword,
             signupMethod: "manual"
         });
+        
+       
+
         res.status(201).json({
             success:true,
             user: {id:user._id, firstName: user.firstName, lastName: user.lastName, email:user.email}
         });
+
 
     }catch(err){
         res.status(500).json({
@@ -86,10 +90,13 @@ exports.registerGoogle = async(req,res)=>{
             if (!userExists.googleId){
                 userExists.googleId = googleId;
                 await userExists.save();
+                const token = jwt.sign({email: user.email}, SECRET, {expiresIn: "1h"});
+                res.cookie("token", token, {httpOnly: true, maxAge:3600000});
                 return res.status(200).json({
                 success: true,
                 message : "Linked Google Id to existing user",
                 user: { id: userExists._id, firstName: userExists.firstName, lastName: userExists.lastName, email: userExists.email}
+
             });
             }
             else if (userExists.googleId){
@@ -109,7 +116,7 @@ exports.registerGoogle = async(req,res)=>{
             googleId,
             signupMethod: "google"
         });
-
+       
         return res.status(201).json({
             success:true,
             message: "User registered successfully with Google",
@@ -123,3 +130,4 @@ exports.registerGoogle = async(req,res)=>{
         });
     }
 }
+
