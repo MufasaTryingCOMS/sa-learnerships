@@ -122,3 +122,73 @@ exports.getOpportunity = async (req, res) => {
         console.log(error);
     }
 };
+
+// TODO: (By MUSA)
+// 1. Opportunity approval by admin. This is just updating the status of an opportunity
+// Much work goes into confirming if the person updating the status is an admin or not which
+// is only possible to do after Thendo is done
+// 2. Removal of opportunity by amdin. Similarly to 1, this just involves deleting an opportunity
+// and much of the work will go into confirming that the person deleting an opportunity is an admin
+// 3. List of opportunities that are accepting applications. I have made this simple by creating a get all opportunites route
+// which you can use by sending a request to '/opportunites?status=Pending' for example. Status can be pending or approved so the list
+// of all such is one where opportunities have a status of 'approved'
+// So you should basically add 2 routes here, one for updating of an opportunity and one for deleting an opportunity
+
+exports.rejectOpportunity = async (req, res) => {
+    try {
+        if (!req.params || !req.params.id) {
+            return res.status(400).json({
+                error: 'Opportunity id required! Please provide a valid opportunity id',
+            });
+        }
+
+        const opportunity = await Opportunity.findById(req.params.id);
+        if (!opportunity) {
+            return res.status(400).json({
+                error: 'Opportunity not found! Please check your id and try again', 
+            });
+        }
+
+        opportunity.status = 'Rejected';
+        await opportunity.save();
+        res.status(200).json({
+            message: 'Opportunity rejected successfully!',
+        });
+    }   
+    catch (error) {
+        res.status(500).json({ 
+            error: 'Something went wrong! Please try again later',
+        });
+        console.log(error);
+    }  
+};
+
+
+exports.approveOpportunity = async (req, res) => {
+    try {
+        if (!req.params || !req.params.id) {
+            return res.status(400).json({
+                error: 'Opportunity id required! Please provide a valid opportunity id',
+            });
+        }
+
+        const opportunity = await Opportunity.findById(req.params.id);
+        if (!opportunity) {
+            return res.status(400).json({
+                error: 'Opportunity not found! Please check your id and try again', 
+            });
+        }
+
+        opportunity.status = 'Approved';
+        await opportunity.save();
+        res.status(200).json({
+            message: 'Opportunity approved successfully!',
+        });
+    }   
+    catch (error) {
+        res.status(500).json({ 
+            error: 'Something went wrong! Please try again later',
+        });
+        console.log(error);
+    }  
+};
