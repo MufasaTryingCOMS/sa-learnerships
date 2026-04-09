@@ -1,8 +1,10 @@
 const User = require('../common/models/User');
 const bcryptjs = require('bcryptjs');
 const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client('540897393879-so4uoeddh7jvu1delkd6ear8t7t9v0dt.apps.googleusercontent.com');
+const google_id = process.env.GOOGLE_CLIENT_ID;
+const client = new OAuth2Client(google_id);
 
+require("dotenv").config;
 const {isStrong} = require('../../scripts/common_functions');
 
 async function hashPassword(password){
@@ -70,7 +72,7 @@ exports.registerGoogle = async(req,res)=>{
     try{
         const verifiedToken = await client.verifyIdToken({
             idToken: google_token,
-            audience: '540897393879-so4uoeddh7jvu1delkd6ear8t7t9v0dt.apps.googleusercontent.com'
+            audience: google_id
         });
 
         const userInfo = verifiedToken.getPayload();
