@@ -3,8 +3,9 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDatabase = require('./database.js');
 const opportunitiesRouter = require('./opportunities/routes.js');
-
 const userRoutes = require("./routes/userRoutes");
+
+dotenv.config();
 
 const app = express();
 
