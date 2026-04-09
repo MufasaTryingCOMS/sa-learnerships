@@ -14,7 +14,7 @@ const getOpportunityElement = (id, title, location, closingDate) => {
             </section>
             <section>
                 <button class="approve-btn" data-opportunity-id="${id}">Approve</button>
-                <button class="remove-btn">Remove</button>
+                <button class="reject-btn">Reject</button>
             </section>
         </section>
     </li>`;
@@ -63,7 +63,28 @@ document.addEventListener('DOMContentLoaded', async () => {
                 } catch (error) {
                     alert('Something went wrong! Please try again later');
                 }
-            }
+
+                } else if (event.target.classList.contains('reject-btn')) {
+                    const opportunityId = event.target.previousElementSibling.getAttribute('data-opportunity-id');
+
+                    try {
+                        const response = await fetch('http://localhost:3000/opportunities/' + opportunityId + '/reject', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            alert('Opportunity rejected successfully!');
+                            window.location.reload();
+                        } else {
+                            alert(data.error);
+                        }
+                    } catch (error) {
+                        alert('Something went wrong! Please try again later');
+                    }
+                }
      });
     } catch (error) {
         pageState.style.display = 'flex';
