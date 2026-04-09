@@ -8,7 +8,7 @@ router.post('/login', controller.login);
 
 //login with google
 router.get('/google', 
-    passport.authenticate('google', { scope: ['profile', 'email'],rompt: 'select_account' })
+    passport.authenticate('google', { scope: ['profile', 'email'],rompt: 'login' })
 );
 router.get('/google/callback', 
     passport.authenticate('google', { session: false, failureRedirect: '/' }),
