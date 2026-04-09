@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const Routes = require('./authorization/routes');
 const connectDatabase = require('./database.js');
 const opportunitiesRouter = require('./opportunities/routes.js');
 const userRoutes = require("./routes/userRoutes");
@@ -9,16 +10,16 @@ dotenv.config();
 
 const app = express();
 
+// serve static files (if you use frontend in /public)
+app.use(express.static("public"));
+
 // middleware
 app.use(cors());
 app.use(express.json());
 
-// serve static files (if you use frontend in /public)
-app.use(express.static("public"));
-
 // routes
+app.use('/', Routes);
 app.use("/api/users", userRoutes);
-
 app.use('/opportunities', opportunitiesRouter);
 
 // 404 Error handling middleware
