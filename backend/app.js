@@ -3,13 +3,21 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDatabase = require('./database.js');
 const opportunitiesRouter = require('./opportunities/routes.js');
+const userRoutes = require("./routes/userRoutes");
 
 dotenv.config();
 
 const app = express();
 
-app.use(express.json());
+// middleware
 app.use(cors());
+app.use(express.json());
+
+// serve static files (if you use frontend in /public)
+app.use(express.static("public"));
+
+// routes
+app.use("/api/users", userRoutes);
 
 app.use('/opportunities', opportunitiesRouter);
 
