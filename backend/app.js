@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const Routes = require('./authorization/routes');
+const authRouter = require('./authorization/authRoutes.js');
 const connectDatabase = require('./database.js');
 const opportunitiesRouter = require('./opportunities/routes.js');
 const userRoutes = require("./routes/userRoutes");
@@ -18,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 // routes
-app.use('/', Routes);
+app.use('/', authRouter);
 app.use("/api/users", userRoutes);
 app.use('/opportunities', opportunitiesRouter);
 
