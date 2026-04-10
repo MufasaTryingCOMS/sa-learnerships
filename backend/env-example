@@ -1,2 +1,7 @@
 SERVER_PORT=your server port
 LOCAL_DB_PORT=your local db port
+
+//from the feature/register branch
+SERVER_PORT=3000
+LOCAL_DB_PORT=27017
+GOOGLE_CLIENT_ID = 540897393879-so4uoeddh7jvu1delkd6ear8t7t9v0dt.apps.googleusercontent.com

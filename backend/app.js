@@ -1,20 +1,27 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const connectDatabase = require('./common/database');
 const Routes = require('./authorization/routes');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('./common/models/User');
 const jwt = require('jsonwebtoken');
+const connectDatabase = require('./database.js');
+const opportunitiesRouter = require('./opportunities/routes.js');
+const userRoutes = require("./routes/userRoutes");
+
 dotenv.config();
 
 const app = express();
 
-app.use(express.json());
-app.use(cors());
+// serve static files (if you use frontend in /public)
+app.use(express.static("public"));
 
+// middleware
+app.use(cors());
+app.use(express.json());
 app.use(passport.initialize());
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -58,10 +65,21 @@ passport.deserializeUser(async (id, done)=>{
     const user = await User.findById(id);
     done(null,user);
 });
+
+// routes
 app.use('/', Routes);
-connectDatabase();
+app.use("/api/users", userRoutes);
+app.use('/opportunities', opportunitiesRouter);
+
+// 404 Error handling middleware
+app.use((req, res, next) => {
+    const url = req.url;
+    const httpMethod = req.method;
+    res.status(404).json({ error: httpMethod + ' ' + url + ' not found' });
+});
 
 const PORT = process.env.SERVER_PORT || 3000;
 app.listen(PORT, () => {
+    connectDatabase();
     console.log(`Server running on port ${PORT}`);
 });

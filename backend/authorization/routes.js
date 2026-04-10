@@ -18,6 +18,6 @@ router.get('/google/callback',
     }
 );
 
-
+router.post('/registerGoogle', controller.registerGoogle);
 
 module.exports = router;

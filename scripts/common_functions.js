@@ -22,5 +22,6 @@ function isStrong(password){
 
     return hasLowercase && hasUppercase && hasDigit && HasSpecialSymbols;   
 }
-module.exports = { isStrong};
+
+module.exports = {isStrong};
 

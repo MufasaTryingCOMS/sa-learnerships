@@ -16,6 +16,8 @@ const userSchema = new Schema({
     },
     googleId: { type: String, sparse: true }, 
     roles: {type: [String], default: ['Applicant']},
+    googleId : {type: String},
+    signupMethod: {type: String},
     createdAt: {type:Date, default: Date.now}
 });
 

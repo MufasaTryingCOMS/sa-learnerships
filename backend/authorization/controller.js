@@ -1,6 +1,9 @@
 const User = require('../common/models/User');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const {OAuth2Client} = require('google-auth-library');
+const google_id = process.env.GOOGLE_CLIENT_ID;
+const client = new OAuth2Client(google_id);
 
 const {isStrong} =  require( '../../scripts/common_functions.js');
 
@@ -52,12 +55,17 @@ exports.register = async (req,res) =>{
             firstName,
             lastName,
             email,
-            password:hashedPassword
+            password:hashedPassword,
+            signupMethod: "manual"
         });
+        
+       
+
         res.status(201).json({
             success:true,
             user: {id:user._id, firstName: user.firstName, lastName: user.lastName, email:user.email}
         });
+
 
     }catch(err){
         res.status(500).json({
@@ -98,3 +106,65 @@ exports.login = async (req, res) => {
     });
     }
 }
+
+exports.registerGoogle = async(req,res)=>{
+    const google_token = req.body.token;
+
+    try{
+        const verifiedToken = await client.verifyIdToken({
+            idToken: google_token,
+            audience: google_id
+        });
+
+        const userInfo = verifiedToken.getPayload();
+        const googleId = userInfo.sub;
+        const email = userInfo.email;
+        const firstName = userInfo.given_name;
+        const lastName = userInfo.family_name;
+
+        const userExists = await User.findOne({email});
+        if (userExists){
+            if (!userExists.googleId){
+                userExists.googleId = googleId;
+                await userExists.save();
+                const token = jwt.sign({email: user.email}, SECRET, {expiresIn: "1h"});
+                res.cookie("token", token, {httpOnly: true, maxAge:3600000});
+                return res.status(200).json({
+                success: true,
+                message : "Linked Google Id to existing user",
+                user: { id: userExists._id, firstName: userExists.firstName, lastName: userExists.lastName, email: userExists.email}
+
+            });
+            }
+            else if (userExists.googleId){
+                return res.status(400).json({
+                    success: false,
+                    message : "User And Google Id Already Exist"
+                })
+            }
+
+        
+        }
+
+        const user = await User.create({
+            firstName,
+            lastName,
+            email,
+            googleId,
+            signupMethod: "google"
+        });
+       
+        return res.status(201).json({
+            success:true,
+            message: "User registered successfully with Google",
+            user: {id:user._id, firstName: user.firstName, lastName: user.lastName, email:user.email}
+        });
+
+    }catch(err){
+        res.status(500).json({
+            success:false,
+            error:err.message
+        });
+    }
+}
+
