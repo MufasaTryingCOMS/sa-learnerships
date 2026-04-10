@@ -1,11 +1,16 @@
 const User = require('../common/models/User');
 const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const {OAuth2Client} = require('google-auth-library');
 const google_id = process.env.GOOGLE_CLIENT_ID;
 const client = new OAuth2Client(google_id);
 
-require("dotenv").config;
-const {isStrong} = require('../../scripts/common_functions');
+const {isStrong} =  require( '../../scripts/common_functions.js');
+
+function generateAccessToken(email, userId) {
+    const secret = process.env.JWT_SECRET || 'your_secret_key_here';
+    return jwt.sign({ email, userId }, secret, { expiresIn: '24h' });
+}
 
 async function hashPassword(password){
     const salt = await bcryptjs.genSalt(10);
@@ -67,6 +72,38 @@ exports.register = async (req,res) =>{
             success:false,
             error:err.message
         });
+    }
+}
+exports.login = async (req, res) => {
+    try{
+        const email = req.body.email;
+        const password = req.body.password;
+        //const encrypted = encryptPassword(password);
+        const userExists = await User.findOne({email});
+        
+        if(!userExists ){
+            return res.status(401).json({error: "Invalid Credentials"});
+
+        }
+
+        const isPasswordValid = await bcryptjs.compare(password, userExists.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: "Invalid Credentials" });
+        }
+        const token = generateAccessToken(email, userExists._id);
+
+        res.status(201).json({
+            success:true,
+            user: {id:userExists._id, firstName: userExists.firstName, lastName: userExists.lastName, email:userExists.email},
+            token
+        });
+
+    }
+    catch(err){
+        res.status(500).json({
+            success:false,
+            error:err.message
+    });
     }
 }
 
