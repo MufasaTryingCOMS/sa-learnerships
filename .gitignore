@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 *.env
 */node_modules/
-=======
 node_modules
 .env
 dist
 build
->>>>>>> 466024f (All backend controllers and routes combined and tested on postman)
