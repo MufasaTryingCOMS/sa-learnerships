@@ -1,15 +1,26 @@
-const express = require('express');
-const controller = require('./controller');
+const express = require("express");
 const router = express.Router();
-const passport = require('passport');
+const passport = require("passport");
 
-router.post('/register', controller.register);
-router.post('/login', controller.login);
+//importing the controllers
+const controller = require("./controller"); // for register
+const {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+} = require("../controllers/userController");
+
+//authentication routes
+router.post("/register", controller.register);
+router.post("/login", controller.login);
 
 //login with google
 router.get('/google', 
-    passport.authenticate('google', { scope: ['profile', 'email'],rompt: 'login' })
+    passport.authenticate('google', { scope: ['profile', 'email'], prompt: 'login' })
 );
+
 router.get('/google/callback', 
     passport.authenticate('google', { session: false, failureRedirect: '/' }),
     (req, res) => {
@@ -18,6 +29,17 @@ router.get('/google/callback',
     }
 );
 
-router.post('/registerGoogle', controller.registerGoogle);
+router.post("/registerGoogle", controller.registerGoogle);
+
+//user CRUD routes
+router.route("/")
+  .post(createUser)
+  .get(getUsers);
+
+router.route("/:id")
+  .get(getUserById)
+  .put(updateUser)
+  .delete(deleteUser);
 
 module.exports = router;
+//merge issues are resolved....when coding check if your code aligns....this is a combo of routes.js from me and D_Precious
