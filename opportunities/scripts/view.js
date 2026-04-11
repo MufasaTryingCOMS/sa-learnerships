@@ -10,6 +10,7 @@ const stipend = document.getElementById('stipend');
 const duration = document.getElementById('duration');
 const locationElement = document.getElementById('location');
 const closingDate = document.getElementById('closing-date');
+const approveButton = document.getElementById('approve-btn');
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -64,5 +65,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     } finally {
         pageState.style.display = 'none';
         pageState.innerHTML = '';
+    }
+});
+
+approveButton.addEventListener('click', async () => {
+    const id = new URLSearchParams(window.location.search).get('id');
+
+    try {
+        const response = await fetch('http://localhost:3000/opportunities/' + id + '/approve', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            approveButton.disabled = true;
+            approveButton.textContent = 'Approved';
+            approveButton.style.cursor = 'not-allowed';
+            alert('Opportunity approved successfully!');
+        }else {
+            alert(data.error);
+        }
+
+    } catch (error) {
+        alert('Something went wrong! Please try again later');
     }
 });
