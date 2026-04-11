@@ -1,13 +1,14 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const User = require("./common/models/User");
-const jwt = require("jsonwebtoken");
-const connectDatabase = require("./database.js");
-const opportunitiesRouter = require("./opportunities/routes.js");
-const userRoutes = require("./authorization/routes.js");
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const authRouter = require('./authorization/routes.js');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const User = require('./common/models/User');
+const jwt = require('jsonwebtoken');
+const connectDatabase = require('./database.js');
+const opportunitiesRouter = require('./opportunities/routes.js');
+const userRoutes = require("./routes/userRoutes");
 
 dotenv.config();
 
@@ -53,6 +54,8 @@ passport.use(
   )
 );
 
+// routes
+app.use('/', authRouter);
 app.use("/api/users", userRoutes);
 app.use("/opportunities", opportunitiesRouter);
 
