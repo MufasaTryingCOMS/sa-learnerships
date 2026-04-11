@@ -1,23 +1,39 @@
-const express = require('express');
-const controller = require('./controller');
+const express = require("express");
 const router = express.Router();
-const passport = require('passport');
+const passport = require("passport");
 
-router.post('/register', controller.register);
-router.post('/login', controller.login);
+const controller = require("./controller");
 
-//login with google
-router.get('/google', 
-    passport.authenticate('google', { scope: ['profile', 'email'],rompt: 'select_account' })
+// auth
+router.post("/register", controller.register);
+router.post("/login", controller.login);
+
+// google auth
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"]
+  })
 );
-router.get('/google/callback', 
-    passport.authenticate('google', { session: false, failureRedirect: '/' }),
-    (req, res) => {
-        const token = req.user.token;
-        res.redirect(`http://localhost:5500/dashboard.html?token=${token}`);
-    }
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    session: false,
+    failureRedirect: "/"
+  }),
+  (req, res) => {
+    const token = req.user.token;
+    res.redirect(`http://localhost:3000/adminDash.html?token=${token}`);
+  }
 );
+router.post("/registerGoogle", controller.registerGoogle);
 
+// users
 
+router.get("/", controller.getUsers);
+router.get("/:id", controller.getUserById);
+router.put("/:id", controller.updateUser);
+router.delete("/:id", controller.deleteUser);
 
 module.exports = router;

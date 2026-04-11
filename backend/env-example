@@ -1,2 +1,3 @@
 SERVER_PORT=your server port
 LOCAL_DB_PORT=your local db port
+GOOGLE_CLIENT_ID =your gooogle client id for google authentication

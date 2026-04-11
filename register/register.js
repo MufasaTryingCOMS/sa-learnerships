@@ -6,13 +6,39 @@ const email = document.getElementById('email');
 const password = document.getElementById('newPassword');
 const confirmPassword = document.getElementById('confirmPassword');
 
+const googleBtn = document.getElementById('google-btn')
+googleBtn.addEventListener('click', () => {
+    window.location.href = 'http://localhost:3000/google';
+});
 
+function isStrong(password){
+    let hasLowercase = false;
+    let hasUppercase = false;
+    let hasDigit = false;
+    let SpecialSymbols = ['!','@','#','$','%','&','*'];
+    let HasSpecialSymbols = false;
 
-import {isStrong} from '../scripts/common_functions.js';
+    for (let x of password){
+        if (x >= 'A' && x <= 'Z'){
+            hasUppercase = true;
+        }
+        else if(x >= 'a' && x <= 'z'){
+            hasLowercase = true;
+        }
+        else if (x >='0' && x <= '9'){
+            hasDigit = true;
+        }
+        else if (SpecialSymbols.includes(x)){
+            HasSpecialSymbols = true;
+        }
+    }
+
+    return hasLowercase && hasUppercase && hasDigit && HasSpecialSymbols;   
+}
 
 form.addEventListener('submit', async(event)=>{
     event.preventDefault();
-     errorMessage.style.display = "nones";
+     errorMessage.style.display = "none";
 
     if (password.value !== confirmPassword.value){
         confirmPassword.style.border = "2px solid red";
@@ -50,12 +76,20 @@ form.addEventListener('submit', async(event)=>{
 
         const data = await response.json();
         if (data.success){
-            const successMesaage = document.getElementById('success-message');
-            successMesaage.textContent = "Registered successfully";
-            successMesaage.style.display = "block";
             
+            sessionStorage.setItem('jwtToken', data.token);
+            sessionStorage.setItem('userId', data.user.id);
+            sessionStorage.setItem('username', data.user.firstName);
+            sessionStorage.setItem('userEmail', data.user.email);
+            sessionStorage.setItem('isLoggedIn', 'true');
+
+
+            const successMessage = document.getElementById('success-message');
+            successMessage.textContent = "Registered successfully";
+            successMessage.style.display = "block";
+            const token = data.token;
             setTimeout(()=>{
-                window.location.href = ""; //I will handle navigation once the required page has been created:)
+                 window.location.href = `http://localhost:5500/dashboard.html?token=${token}`
             }, 3000);
             
         }
@@ -68,7 +102,6 @@ form.addEventListener('submit', async(event)=>{
             errorMessage.style.display = "block";
             errorMessage.textContent = err.message;
     }
-
-
-    
+ 
 })
+

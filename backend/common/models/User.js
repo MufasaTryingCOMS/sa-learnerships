@@ -15,7 +15,21 @@ const userSchema = new Schema({
         }
     },
     googleId: { type: String, sparse: true }, 
-    roles: {type: [String], default: ['Applicant']},
+   // roles: {type: [String], default: ['Applicant']},...this one will not align with modifying a user role
+    role: {
+  type: String,
+  enum: ["applicant", "provider", "admin"],
+  default: "applicant"
+},
+//i will use this for softdelete  later
+status: {
+  type: String,
+  enum: ["active", "inactive", "disabled"],
+  default: "active"
+},
+     //this is a dulicate fix it
+    googleId : {type: String},
+    signupMethod: {type: String},
     createdAt: {type:Date, default: Date.now}
 });
 

@@ -6,6 +6,8 @@
         <title>Register</title>
         <link rel="stylesheet" href="../styles/index.css" />
         <link rel="stylesheet" href="register.css" />
+
+        <script src="https://accounts.google.com/gsi/client"></script>
     </head>
 
     <body>
@@ -44,10 +46,7 @@
                         <section class="input-wrapper">
                             <img src="../assets/lock.svg" alt="lock-icon" class="left-icon"/>
                             <input type="password" id="newPassword" name="newPassword" placeholder="Please enter new password"/>
-                            
-                            <button type="button" class="toggle-password" aria-label="Show password">
-                                <img src="../assets/eye-off.svg" alt="Toggle password visibility"/>
-                            </button>
+                        
                         </section>
                     </section>
 
@@ -56,24 +55,25 @@
                         <section class="input-wrapper">
                             <img src="../assets/lock.svg" alt="lock-icon" class="left-icon"/>
                             <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Please confirm new password"/>
-                            
-                            <button type="button" class="toggle-password" aria-label="Show password">
-                                <img src="../assets/eye-off.svg" alt="Toggle password visibility"/>
-                            </button>
+        
                         </section>
                     </section>
 
                     <p class="error-message" id="error-message">Please enter matching passwords.</p>
                     <button type="submit" id="registerBtn">Register</button>
+                     <button type="button" id="google-btn">Register with Google</button>
               </form>
               <p class="redirect-text">
                 Already have an account?
-                <a href="">Log In</a>
+                <a href="../login/login.html">Log In</a>
               </p>
+
+              
 
               <p class="success-message" id="success-message" style="display:none;"></p>
              
             </article>
+            
             
         </main>
          <script type="module" src="./register.js"></script>
