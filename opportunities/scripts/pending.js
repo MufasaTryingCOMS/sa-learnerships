@@ -1,4 +1,5 @@
 const pageState = document.getElementById('page-state');
+const pageError = document.getElementById('page-error');
 const pageContainer = document.getElementById('page-container');
 const opportunities = document.getElementById('opportunities');
 
@@ -40,9 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         opportunities.addEventListener('click', async (event) => {
-    
             if (event.target.classList.contains('approve-btn')) {
-                
                 const opportunityId = event.target.getAttribute('data-opportunity-id');
 
                 try {
@@ -59,40 +58,37 @@ document.addEventListener('DOMContentLoaded', async () => {
                     } else {
                         alert(data.error);
                     }
-
                 } catch (error) {
                     alert('Something went wrong! Please try again later');
                 }
+            } else if (event.target.classList.contains('reject-btn')) {
+                const opportunityId = event.target.previousElementSibling.getAttribute('data-opportunity-id');
 
-                } else if (event.target.classList.contains('reject-btn')) {
-                    const opportunityId = event.target.previousElementSibling.getAttribute('data-opportunity-id');
+                try {
+                    const response = await fetch('http://localhost:3000/opportunities/' + opportunityId + '/reject', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                    });
 
-                    try {
-                        const response = await fetch('http://localhost:3000/opportunities/' + opportunityId + '/reject', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                        });
+                    const data = await response.json();
 
-                        const data = await response.json();
-
-                        if (response.ok) {
-                            alert('Opportunity rejected successfully!');
-                            window.location.reload();
-                        } else {
-                            alert(data.error);
-                        }
-                    } catch (error) {
-                        alert('Something went wrong! Please try again later');
+                    if (response.ok) {
+                        alert('Opportunity rejected successfully!');
+                        window.location.reload();
+                    } else {
+                        alert(data.error);
                     }
+                } catch (error) {
+                    alert('Something went wrong! Please try again later');
                 }
-     });
+            }
+        });
     } catch (error) {
-        pageState.style.display = 'flex';
-        pageState.innerHTML = '<p>An error occurred! Please try again later</p>';
+        pageError.style.display = 'flex';
+        pageError.innerHTML = '<p>An error occurred! Please try again later</p>';
         console.error('View opportunity error:', error);
     } finally {
         pageState.style.display = 'none';
         pageState.innerHTML = '';
     }
 });
-
