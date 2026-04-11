@@ -27,7 +27,7 @@ router.get(
     res.redirect(`http://localhost:3000/adminDash.html?token=${token}`);
   }
 );
-router.post("/registerGoogle", controller.registerGoogle);
+//router.post("/registerGoogle", controller.registerGoogle);
 
 // users
 
