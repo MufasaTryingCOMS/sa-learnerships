@@ -1,30 +1,12 @@
 const User = require('../common/models/User');
 const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
+const {isStrong} =  require( '../../scripts/common_functions.js');
 
-function isStrong(password){
-    let hasLowercase = false;
-    let hasUppercase = false;
-    let hasDigit = false;
-    let specialSymbols = ['!','@','#','$','%','&','*'];
-    let hasSpecialSymbols = false;
-
-    for (let x of password){
-        if (x >= 'A' && x <= 'Z'){
-            hasUppercase = true;
-        }
-        else if (x >= 'a' && x <= 'z'){
-            hasLowercase = true;
-        }
-        else if ( x >='0' && x <= '9'){
-            hasDigit = true;
-        }
-        else if (specialSymbols.includes(x)){
-            hasSpecialSymbols = true;
-        }
-    }
-    
-    return hasUppercase && hasLowercase && hasDigit && hasSpecialSymbols;
+function generateAccessToken(email, userId) {
+    const secret = process.env.JWT_SECRET || 'your_secret_key_here';
+    return jwt.sign({ email, userId }, secret, { expiresIn: '24h' });
 }
 
 async function hashPassword(password){
@@ -82,5 +64,37 @@ exports.register = async (req,res) =>{
             success:false,
             error:err.message
         });
+    }
+}
+exports.login = async (req, res) => {
+    try{
+        const email = req.body.email;
+        const password = req.body.password;
+        //const encrypted = encryptPassword(password);
+        const userExists = await User.findOne({email});
+        
+        if(!userExists ){
+            return res.status(401).json({error: "Invalid Credentials"});
+
+        }
+
+        const isPasswordValid = await bcryptjs.compare(password, userExists.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: "Invalid Credentials" });
+        }
+        const token = generateAccessToken(email, userExists._id);
+
+        res.status(201).json({
+            success:true,
+            user: {id:userExists._id, firstName: userExists.firstName, lastName: userExists.lastName, email:userExists.email},
+            token
+        });
+
+    }
+    catch(err){
+        res.status(500).json({
+            success:false,
+            error:err.message
+    });
     }
 }
