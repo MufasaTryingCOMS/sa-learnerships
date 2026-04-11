@@ -1,52 +1,57 @@
 const User = require('../common/models/User');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const {OAuth2Client} = require('google-auth-library');
+const { OAuth2Client } = require('google-auth-library');
+
 const google_id = process.env.GOOGLE_CLIENT_ID;
 const client = new OAuth2Client(google_id);
 
-const {isStrong} =  require( '../../scripts/common_functions.js');
+const { isStrong } = require('../../scripts/common_functions.js');
 
-function generateAccessToken(email, userId) {
+//generate jwt token with user details
+function generateAccessToken(email, userId, role) {
     const secret = process.env.JWT_SECRET || 'your_secret_key_here';
-    return jwt.sign({ email, userId }, secret, { expiresIn: '24h' });
+
+    return jwt.sign(
+        { email, userId, role },
+        secret,
+        { expiresIn: '24h' }
+    );
 }
 
-async function hashPassword(password){
+//hash password before saving to db
+async function hashPassword(password) {
     const salt = await bcryptjs.genSalt(10);
-    const hashedPassword = await bcryptjs.hash(password,salt);
-
-    return hashedPassword;
+    return await bcryptjs.hash(password, salt);
 }
 
-exports.register = async (req,res) =>{
-    try{
-        const firstName = req.body.firstName;
-        const lastName = req.body.lastName;
-        const password = req.body.password;
-        const email = req.body.email;
-        const confirmPassword = req.body.confirmPassword;
+//register normal user (manual signup)
+exports.register = async (req, res) => {
+    try {
+        const { firstName, lastName, email, password, confirmPassword } = req.body;
 
-        const userExists = await User.findOne({email : req.body.email});
-        if (userExists){
-            return res.status(409).json({error:"User Already Exists!"});
+        const userExists = await User.findOne({ email });
 
+        if (userExists) {
+            return res.status(409).json({ error: "User Already Exists!" });
         }
 
-        if (firstName==="" || lastName==="" || email==="" || password==="" || confirmPassword===""){
-            return res.status(400).json({error: "Please Fill All The Required Fields!"});
+        if (!firstName || !lastName || !email || !password || !confirmPassword) {
+            return res.status(400).json({ error: "Please Fill All The Required Fields!" });
         }
 
-        if (password != confirmPassword){
-            return res.status(400).json({error: "Passwords do not match"});
+        if (password !== confirmPassword) {
+            return res.status(400).json({ error: "Passwords do not match" });
         }
 
-        if (password.length < 8){
-            return res.status(400).json({error: "Password length must be at least 8 characters long"});
+        if (password.length < 8) {
+            return res.status(400).json({ error: "Password must be at least 8 characters long" });
         }
 
-        if (!isStrong(password)){
-            return res.status(400).json({error: "Password is too weak. It must include at least one uppercase letter, one lowercase letter, one digit and one special symbol"});
+        if (!isStrong(password)) {
+            return res.status(400).json({
+                error: "Password must include uppercase, lowercase, number and special character"
+            });
         }
 
         const hashedPassword = await hashPassword(password);
@@ -55,34 +60,42 @@ exports.register = async (req,res) =>{
             firstName,
             lastName,
             email,
-            password:hashedPassword,
-            signupMethod: "manual"
+            password: hashedPassword,
+            signupMethod: "manual",
+            role: "applicant"
         });
 
-        res.status(201).json({
-            success:true,
-            user: {id:user._id, firstName: user.firstName, lastName: user.lastName, email:user.email}
+        return res.status(201).json({
+            success: true,
+            user: {
+                id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                role: user.role
+            }
         });
 
-    }catch(err){
-        res.status(500).json({
-            success:false,
-            error:err.message
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            error: err.message
         });
     }
-}
+};
 
+//login user (manual login)
 exports.login = async (req, res) => {
-    try{
-        const email = req.body.email;
-        const password = req.body.password;
+    try {
+        const { email, password } = req.body;
 
-        const userExists = await User.findOne({email});
-        
-        if(!userExists ){
-            return res.status(401).json({error: "Invalid Credentials"});
+        const userExists = await User.findOne({ email });
+
+        if (!userExists) {
+            return res.status(401).json({ error: "Invalid Credentials" });
         }
 
+        //block google-only users from manual login
         if (!userExists.password) {
             return res.status(401).json({ error: "Use Google login" });
         }
@@ -93,105 +106,126 @@ exports.login = async (req, res) => {
             return res.status(401).json({ error: "Invalid Credentials" });
         }
 
-        const token = generateAccessToken(email, userExists._id);
+        const token = generateAccessToken(
+            userExists.email,
+            userExists._id,
+            userExists.role
+        );
 
-        res.status(201).json({
-            success:true,
-            user: {id:userExists._id, firstName: userExists.firstName, lastName: userExists.lastName, email:userExists.email},
+        return res.status(200).json({
+            success: true,
+            user: {
+                id: userExists._id,
+                firstName: userExists.firstName,
+                lastName: userExists.lastName,
+                email: userExists.email,
+                role: userExists.role
+            },
             token
         });
 
-    }
-    catch(err){
-        res.status(500).json({
-            success:false,
-            error:err.message
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            error: err.message
         });
     }
-}
+};
 
-exports.registerGoogle = async(req,res)=>{
+//google signup / login
+exports.registerGoogle = async (req, res) => {
     const google_token = req.body.token;
 
-    try{
+    try {
         const verifiedToken = await client.verifyIdToken({
             idToken: google_token,
             audience: google_id
         });
 
         const userInfo = verifiedToken.getPayload();
+
         const googleId = userInfo.sub;
         const email = userInfo.email;
         const firstName = userInfo.given_name;
         const lastName = userInfo.family_name;
 
-        const userExists = await User.findOne({email});
+        let user = await User.findOne({ email });
 
-        if (userExists){
-            if (!userExists.googleId){
-                userExists.googleId = googleId;
-                await userExists.save();
+        //if user already exists
+        if (user) {
 
-                const token = jwt.sign(
-                    { email: userExists.email },
-                    process.env.JWT_SECRET || 'your_secret_key_here',
-                    { expiresIn: "1h" }
-                );
-
-                return res.status(200).json({
-                    success: true,
-                    message : "Linked Google Id to existing user",
-                    user: { id: userExists._id, firstName: userExists.firstName, lastName: userExists.lastName, email: userExists.email}
-                });
+            //link google id if not linked yet
+            if (!user.googleId) {
+                user.googleId = googleId;
+                await user.save();
             }
-            else {
-                return res.status(400).json({
-                    success: false,
-                    message : "User And Google Id Already Exist"
-                })
-            }
+
+            const token = generateAccessToken(user.email, user._id, user.role);
+
+            return res.status(200).json({
+                success: true,
+                message: "Google account linked",
+                token,
+                user: {
+                    id: user._id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    role: user.role
+                }
+            });
         }
 
-        const user = await User.create({
+        //create new google user
+        user = await User.create({
             firstName,
             lastName,
             email,
             googleId,
-            signupMethod: "google"
-        });
-       
-        return res.status(201).json({
-            success:true,
-            message: "User registered successfully with Google",
-            user: {id:user._id, firstName: user.firstName, lastName: user.lastName, email:user.email}
+            signupMethod: "google",
+            role: "applicant"
         });
 
-    }catch(err){
-        res.status(500).json({
-            success:false,
-            error:err.message
+        const token = generateAccessToken(user.email, user._id, user.role);
+
+        return res.status(201).json({
+            success: true,
+            message: "Google signup successful",
+            token,
+            user: {
+                id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                role: user.role
+            }
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            error: err.message
         });
     }
-}
+};
 
-//deleting user from system...i suggest changing this to just blocking the user instead of deleting because we might need the data for future reference but for now i will just do delete
+//soft delete user (disable instead of removing from DB)
 exports.deleteUser = async (req, res) => {
     try {
-
-        const id = req.params.id;
-
-        const user = await User.findByIdAndUpdate(id, {
-            status: "disabled"
-        }, { new: true });
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            { status: "disabled" },
+            { new: true }
+        );
 
         if (!user) {
-            res.status(404).json({ message: "User not found" });
-        } else {
-            res.json({ message: "User disabled", user: user });
+            return res.status(404).json({ message: "User not found" });
         }
 
-    } catch (e) {
-        res.status(500).json({ message: e.message });
+        return res.json({ message: "User disabled", user });
+
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
     }
 };
 
@@ -205,6 +239,7 @@ exports.updateUser = async (req, res) => {
 
         let updateData = {};
 
+        //update role if provided
         if (role !== undefined) {
             const normalizedRole = role.toLowerCase().trim();
 
@@ -215,6 +250,7 @@ exports.updateUser = async (req, res) => {
             updateData.role = normalizedRole;
         }
 
+        //update status if provided
         if (status !== undefined) {
             const normalizedStatus = status.toLowerCase().trim();
 
@@ -239,14 +275,14 @@ exports.updateUser = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        res.json(updatedUser);
+        return res.json(updatedUser);
 
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
     }
 };
 
-//get all users also with  search and filter
+//get all users with optional search and filtering
 exports.getUsers = async (req, res) => {
     try {
         const { search, role } = req.query;
@@ -267,14 +303,14 @@ exports.getUsers = async (req, res) => {
 
         const users = await User.find(query).select("-password");
 
-        res.json(users);
+        return res.json(users);
 
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
     }
 };
 
-//get  user by id
+//get single user by id
 exports.getUserById = async (req, res) => {
     try {
         const user = await User.findById(req.params.id).select("-password");
@@ -283,9 +319,9 @@ exports.getUserById = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        res.json(user);
+        return res.json(user);
 
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
     }
 };

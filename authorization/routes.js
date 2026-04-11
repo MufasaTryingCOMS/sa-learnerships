@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 
 //importing the controllers
-const controller = require("../authorization/controller"); // for register
+const controller = require("./controller"); // for register
 const {
   getUsers,
   getUserById,
@@ -35,12 +35,9 @@ router.post("/registerGoogle", controller.registerGoogle);
 router.route("/")
   .get(getUsers);
 
-
 router.route("/:id")
   .get(getUserById)
   .put(updateUser)
   .delete(deleteUser);
 
 module.exports = router;
-
-//merge issues are resolved....when coding check if your code aligns....this is a combo of routes.js from me and D_Precious
