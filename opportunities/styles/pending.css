@@ -5,14 +5,6 @@
     display: none;
 }
 
-#opportunities li .remove-btn {
-    border: 2px solid #6e2287;
-    color: #6e2287;
-    background-color: rgb(255, 255, 255);
-}
-
 #opportunities li .approve-btn {
     margin-right: 10px;
-    background: linear-gradient(to right, #6e2287 0%, #ae3096 73%, #c7359b 100%);
-    color: #ffffff;
 }

@@ -14,13 +14,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         const data = await response.json();
         if (response.ok) {
             pageContainer.style.display = 'block';
-            data.opportunities.forEach(({ title, location, closingDate }) => {
+            data.opportunities.forEach(({ id, title, location, closingDate }) => {
                 opportunities.innerHTML += `<li>
                     <h3>${title}</h3>   
                     <section class="opportunity-details">
                         <section>
                             <p><b>Location:</b> ${location || 'Not provided'}<p>
                             <p><b>Closes:</b> ${closingDate.slice(0, 10)}</p>   
+                        </section>
+                        <secttion>
+                            <button class="coloured-btn">Apply</button>
+                            <button class="transparent-btn">More Details</button>
                         </section>
                     </section>
                 </li>`;

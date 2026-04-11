@@ -14,8 +14,8 @@ const getOpportunityElement = (id, title, location, closingDate) => {
                 <p><b>Closes:</b> ${closingDate.slice(0, 10)}</p>
             </section>
             <section>
-                <button class="approve-btn" data-opportunity-id="${id}">Approve</button>
-                <button class="reject-btn">Reject</button>
+                <button class="approve-btn coloured-btn" data-opportunity-id="${id}">Approve</button>
+                <button class="reject-btn transparent-btn">Reject</button>
             </section>
         </section>
     </li>`;
@@ -31,10 +31,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             headers: { 'Content-Type': 'application/json' },
         });
 
-        const data = await response.json();
-
         if (response.ok) {
+            const data = await response.json();
+
             pageContainer.style.display = 'block';
+            if (data.opportunities.length == 0) {
+                opportunities.innerHTML = '<p class="no-data">No pending opportunities found</p>';
+                return;
+            }
+
             data.opportunities.forEach(({ _id, title, location, closingDate }) => {
                 opportunities.innerHTML += getOpportunityElement(_id, title, location, closingDate);
             });

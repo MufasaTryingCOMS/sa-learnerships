@@ -11,9 +11,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         });
-        const data = await response.json();
+
         if (response.ok) {
+            const data = await response.json();
+
             pageContainer.style.display = 'block';
+
+            if (data.opportunities.length == 0) {
+                opportunities.innerHTML = '<p class="no-data">No rejected opportunities</p>';
+                return;
+            }
+
             data.opportunities.forEach(({ title, location, closingDate }) => {
                 opportunities.innerHTML += `<li>
                     <h3>${title}</h3>   
@@ -22,6 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <p><b>Location:</b> ${location || 'Not provided'}<p>
                             <p><b>Closes:</b> ${closingDate.slice(0, 10)}</p>   
                         </section>
+                        <button class="transparent-btn">Delete</button>
                     </section>
                 </li>`;
             });

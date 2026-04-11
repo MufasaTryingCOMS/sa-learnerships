@@ -1,4 +1,4 @@
-<!-- This page is where providers can view opportunities that they have created. It should be accessible to the providers and admins only -->
+<!-- This page is for user management. It fetches all users and allows filtering. It should be accessible to the admins only -->
 <!doctype html>
 <html lang="en">
     <head>
@@ -51,11 +51,29 @@
                 </ul>
             </aside>
             <section id="main-details">
-                <section id="page-state"></section>
-                <section id="page-error"></section>
                 <section id="page-container">
                     <h1 id="page-title">User Management</h1>
-                    <ul id="users"></ul>
+                    <form onsubmit="return false;">
+                        <input id="searchInput" type="text" placeholder="Search users..." />
+                        <select id="roleFilter">
+                            <option value="all">All Roles</option>
+                            <option value="applicant">Applicant</option>
+                            <option value="provider">Provider</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </form>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody"></tbody>
+                    </table>
+                    <section id="table-state"></section>
+                    <section id="table-error"></section>
                 </section>
             </section>
         </main>

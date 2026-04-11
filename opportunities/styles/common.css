@@ -31,6 +31,8 @@ aside #opportunities-nav {
 
 #page-title {
     width: 100%;
+    max-width: 800px;
+    margin-bottom: 30px;
     font-size: 38px;
     max-width: 800px;
     line-height: 30px;
@@ -51,6 +53,10 @@ aside #opportunities-nav {
     padding: 20px;
     border: 2px solid rgb(209, 217, 224, 0.7);
     border-radius: 10px;
+}
+
+#opportunities li h3 {
+    font-size: 24px;
 }
 
 #opportunities li p {
@@ -81,4 +87,8 @@ aside #opportunities-nav {
 #page-state p,
 #page-error p {
     font-size: 18px;
+}
+
+.no-data {
+    margin-top: 50px;
 }
