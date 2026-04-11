@@ -1,5 +1,8 @@
+/* This file is for all common styles. It should be imported on every html file so that common styles can be applied */
+
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;600&family=Jost:wght@400;600&display=swap');
 
+/* Element styles goes here i.e. Every style that is applied using the element selector should put here */
 * {
     margin: 0px;
     padding: 0px;
@@ -10,4 +13,44 @@ body {
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
     background-color: #ffffff;
+}
+
+button {
+    height: 36px;
+    padding: 0px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 400;
+    transition: opacity 0.2s ease;
+}
+
+button:hover {
+    cursor: pointer;
+    opacity: 0.85;
+}
+
+/* Id styles goes here i.e. Every style that is applied using the element id selector should put here */
+
+#app-name {
+    font-size: 30px;
+}
+
+/* Class styles goes here i.e. Every style that is applied using the element class selector should put here */
+
+.transparent-btn {
+    background-color: transparent;
+    border: 1.5px solid #1562f2;
+    color: #1562f2;
+}
+
+.coloured-btn {
+    background-color: #1562f2;
+    color: #ffffff;
+}
+
+.card {
+    background-color: transparent;
+    border: 1.5px solid #dfdfdf;
+    border-radius: 6px;
 }
