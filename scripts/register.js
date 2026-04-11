@@ -72,24 +72,15 @@ form.addEventListener('submit', async (event) => {
             }),
         });
 
-        const data = await response.json();
-        if (data.success) {
-            sessionStorage.setItem('jwtToken', data.token);
-            sessionStorage.setItem('userId', data.user.id);
-            sessionStorage.setItem('username', data.user.firstName);
-            sessionStorage.setItem('userEmail', data.user.email);
-            sessionStorage.setItem('isLoggedIn', 'true');
-
-            const successMessage = document.getElementById('success-message');
-            successMessage.textContent = 'Registered successfully';
-            successMessage.style.display = 'block';
-            const token = data.token;
-            setTimeout(() => {
-                window.location.href = `http:localhost:5500/dashboard.html?token=${token}`;
-            }, 3000);
-        } else {
-            errorMessage.style.display = 'block';
-            errorMessage.textContent = data.error;
+        if (response.status === 201) {
+            const data = await response.json();
+            if (data) {
+                // The token needs to come from the server as an http only cookie
+                window.location.href = 'home.html';
+            } else {
+                errorMessage.style.display = 'block';
+                errorMessage.innerHTML = 'Something went wrong! Please try again later';
+            }
         }
     } catch (err) {
         errorMessage.style.display = 'block';

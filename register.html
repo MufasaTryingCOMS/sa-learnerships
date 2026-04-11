@@ -10,9 +10,8 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Register</title>
-        <link rel="stylesheet" href="../styles/index.css" />
+        <link rel="stylesheet" href="/styles/index.css" />
         <link rel="stylesheet" href="/styles/register.css" />
-        <script src="https://accounts.google.com/gsi/client"></script>
     </head>
 
     <body>
@@ -76,18 +75,18 @@
                             />
                         </section>
                     </section>
-                    <p class="error-message" id="error-message">Please enter matching passwords.</p>
-                    <button type="submit" id="registerBtn">Register</button>
-                    <button type="button" id="google-btn">Register with Google</button>
+                    <p id="error-message">Please enter matching passwords.</p>
+                    <button type="submit" id="registerBtn" class="coloured-btn">Register</button>
+                    <section id="redirect-wrapper">
+                        <p class="redirect-text">Already have an account?</p>
+                        <a href="login.html">Log In</a>
+                    </section>
+                    <hr />
+                    <button type="button" id="google-btn" class="transparent-btn">Register with Google</button>
                 </form>
-                <p class="redirect-text">
-                    Already have an account?
-                    <a href="../login/login.html">Log In</a>
-                </p>
-
-                <p class="success-message" id="success-message" style="display: none"></p>
             </article>
         </main>
+        <script src="https://accounts.google.com/gsi/client"></script>
         <script type="module" src="/scripts/register.js"></script>
     </body>
 </html>
