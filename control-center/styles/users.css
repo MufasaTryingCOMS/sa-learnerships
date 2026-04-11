@@ -1,0 +1,8 @@
+/* Show the control center side bar options */
+aside #control-center-nav-options {
+    display: block;
+}
+
+aside #control-center-nav {
+    background-color: #dfdfdf;
+}

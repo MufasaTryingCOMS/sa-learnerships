@@ -171,7 +171,7 @@ aside ul li .heading:hover {
 }
 
 aside ul li .heading p {
-    font-size: 18px;
+    font-size: 16px;
     color: #505050;
 }
 
@@ -180,11 +180,13 @@ aside ul li .heading img {
     width: 10px;
 }
 
-aside #opportunities-nav-options {
+aside #opportunities-nav-options,
+aside #control-center-nav-options {
     display: none;
 }
 
-aside #opportunities-nav-options ul {
+aside #opportunities-nav-options ul,
+aside #control-center-nav-options ul {
     margin-top: 10px;
     padding-left: 40px;
     list-style: none;
@@ -192,14 +194,16 @@ aside #opportunities-nav-options ul {
     flex-direction: column;
 }
 
-aside #opportunities-nav-options ul li {
+aside #opportunities-nav-options ul li,
+aside #control-center-nav-options ul li {
     height: 40px;
     margin: 0px;
     display: flex;
     justify-content: center;
 }
 
-aside #opportunities-nav-options ul li a {
+aside #opportunities-nav-options ul li a,
+aside #control-center-nav-options ul li a {
     font-size: 16px;
     color: #505050;
     text-decoration: none;

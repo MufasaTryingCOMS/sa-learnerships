@@ -1,6 +1,7 @@
 const pageState = document.getElementById('page-state');
+const pageError = document.getElementById('page-error');
 const pageContainer = document.getElementById('page-container');
-const opportunities = document.getElementById('opportunities'); 
+const opportunities = document.getElementById('opportunities');
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -10,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         });
-        const data = await response.json(); 
+        const data = await response.json();
         if (response.ok) {
             pageContainer.style.display = 'block';
             data.opportunities.forEach(({ title, location, closingDate }) => {
@@ -23,19 +24,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </section>
                     </section>
                 </li>`;
-            }   );
+            });
         }
-    } catch (error) {   
-        pageState.style.display = 'flex';
-        pageState.innerHTML = '<p>An error occurred! Please try again later</p>';
+    } catch (error) {
+        pageError.style.display = 'flex';
+        pageError.innerHTML = '<p>An error occurred! Please try again later</p>';
         console.error('View opportunity error:', error);
-    }   
-
-    finally {
+    } finally {
         pageState.style.display = 'none';
         pageState.innerHTML = '';
     }
 });
-
-
-    
