@@ -12,7 +12,7 @@
 body {
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
-    background-color: #ffffff;
+    background-color: #fafafa;
 }
 
 button {
@@ -30,10 +30,31 @@ button:hover {
     opacity: 0.85;
 }
 
+nav {
+    width: 100%;
+    padding: 16px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.5px solid #dfdfdf;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav ul {
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 10px;
+}
+
 /* Id styles goes here i.e. Every style that is applied using the element id selector should put here */
 
 #app-name {
-    font-size: 30px;
+    font-size: 26px;
 }
 
 /* Class styles goes here i.e. Every style that is applied using the element class selector should put here */

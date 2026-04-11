@@ -1,26 +1,5 @@
 /* This file is for the landing page design and should be used solely on the index.html file */
 
-/* Navigation syles */
-nav {
-    width: 100%;
-    padding: 16px 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-nav ul {
-    list-style: none;
-}
-
-nav ul {
-    display: flex;
-}
-
-nav ul li {
-    margin-right: 10px;
-}
-
 /* Header syles */
 header {
     width: 100%;
