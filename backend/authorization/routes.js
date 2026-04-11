@@ -3,7 +3,9 @@ const router = express.Router();
 const passport = require("passport");
 
 //importing the controllers
+
 const controller = require("./controller"); // for register
+
 const {
   getUsers,
   getUserById,
