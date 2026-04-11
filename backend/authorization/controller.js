@@ -1,16 +1,16 @@
+require("dotenv").config();
 const User = require('../common/models/User');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const {OAuth2Client} = require('google-auth-library');
-const google_id = process.env.GOOGLE_CLIENT_ID;
-const client = new OAuth2Client(google_id);
 
-const {isStrong} =  require( '../../scripts/common_functions.js');
+
+const {isStrong} = require('../../scripts/common_functions');
 
 function generateAccessToken(email, userId) {
     const secret = process.env.JWT_SECRET || 'your_secret_key_here';
     return jwt.sign({ email, userId }, secret, { expiresIn: '24h' });
 }
+
 
 async function hashPassword(password){
     const salt = await bcryptjs.genSalt(10);
@@ -49,6 +49,7 @@ exports.register = async (req,res) =>{
             return res.status(400).json({error: "Password is too weak. It must include at least one uppercase letter, one lowercase letter, one digit and one special symbol"});
         }
 
+
         const hashedPassword = await hashPassword(password);
 
         const user = await User.create({
@@ -58,108 +59,13 @@ exports.register = async (req,res) =>{
             password:hashedPassword,
             signupMethod: "manual"
         });
-
-        res.status(201).json({
-            success:true,
-            user: {id:user._id, firstName: user.firstName, lastName: user.lastName, email:user.email}
-        });
-
-    }catch(err){
-        res.status(500).json({
-            success:false,
-            error:err.message
-        });
-    }
-}
-
-exports.login = async (req, res) => {
-    try{
-        const email = req.body.email;
-        const password = req.body.password;
-
-        const userExists = await User.findOne({email});
-        
-        if(!userExists ){
-            return res.status(401).json({error: "Invalid Credentials"});
-        }
-
-        const isPasswordValid = await bcryptjs.compare(password, userExists.password);
-
-        if (!isPasswordValid) {
-            return res.status(401).json({ error: "Invalid Credentials" });
-        }
-
-        const token = generateAccessToken(email, userExists._id);
-
-        res.status(201).json({
-            success:true,
-            user: {id:userExists._id, firstName: userExists.firstName, lastName: userExists.lastName, email:userExists.email},
-            token
-        });
-
-    }
-    catch(err){
-        res.status(500).json({
-            success:false,
-            error:err.message
-        });
-    }
-}
-
-exports.registerGoogle = async(req,res)=>{
-    const google_token = req.body.token;
-
-    try{
-        const verifiedToken = await client.verifyIdToken({
-            idToken: google_token,
-            audience: google_id
-        });
-
-        const userInfo = verifiedToken.getPayload();
-        const googleId = userInfo.sub;
-        const email = userInfo.email;
-        const firstName = userInfo.given_name;
-        const lastName = userInfo.family_name;
-
-        const userExists = await User.findOne({email});
-
-        if (userExists){
-            if (!userExists.googleId){
-                userExists.googleId = googleId;
-                await userExists.save();
-
-                const token = jwt.sign(
-                    { email: userExists.email },
-                    process.env.JWT_SECRET || 'your_secret_key_here',
-                    { expiresIn: "1h" }
-                );
-
-                return res.status(200).json({
-                    success: true,
-                    message : "Linked Google Id to existing user",
-                    user: { id: userExists._id, firstName: userExists.firstName, lastName: userExists.lastName, email: userExists.email}
-                });
-            }
-            else {
-                return res.status(400).json({
-                    success: false,
-                    message : "User And Google Id Already Exist"
-                })
-            }
-        }
-
-        const user = await User.create({
-            firstName,
-            lastName,
-            email,
-            googleId,
-            signupMethod: "google"
-        });
+        const token = generateAccessToken(email, user._id);
        
-        return res.status(201).json({
+
+        res.status(201).json({
             success:true,
-            message: "User registered successfully with Google",
-            user: {id:user._id, firstName: user.firstName, lastName: user.lastName, email:user.email}
+            user: {id:user._id, firstName: user.firstName, lastName: user.lastName, email:user.email},
+            token: token
         });
 
     }catch(err){
@@ -170,117 +76,5 @@ exports.registerGoogle = async(req,res)=>{
     }
 }
 
-//deleting user from system...i suggest changing this to just blocking the user instead of deleting because we might need the data for future reference but for now i will just do delete
-exports.deleteUser = async (req, res) => {
-    try {
 
-        const id = req.params.id;
 
-        const user = await User.findByIdAndUpdate(id, {
-            status: "disabled"
-        }, { new: true });
-
-        if (!user) {
-            res.status(404).json({ message: "User not found" });
-        } else {
-            res.json({ message: "User disabled", user: user });
-        }
-
-    } catch (e) {
-        res.status(500).json({ message: e.message });
-    }
-};
-
-//update user role or status
-exports.updateUser = async (req, res) => {
-    try {
-        const { role, status } = req.body;
-
-        const allowedRoles = ["applicant", "provider", "admin"];
-        const allowedStatus = ["active", "inactive", "blocked"];
-
-        let updateData = {};
-
-        if (role !== undefined) {
-            const normalizedRole = role.toLowerCase().trim();
-
-            if (!allowedRoles.includes(normalizedRole)) {
-                return res.status(400).json({ message: "Invalid role value" });
-            }
-
-            updateData.role = normalizedRole;
-        }
-
-        if (status !== undefined) {
-            const normalizedStatus = status.toLowerCase().trim();
-
-            if (!allowedStatus.includes(normalizedStatus)) {
-                return res.status(400).json({ message: "Invalid status value" });
-            }
-
-            updateData.status = normalizedStatus;
-        }
-
-        if (Object.keys(updateData).length === 0) {
-            return res.status(400).json({ message: "No valid fields provided" });
-        }
-
-        const updatedUser = await User.findByIdAndUpdate(
-            req.params.id,
-            updateData,
-            { new: true, runValidators: true }
-        ).select("-password");
-
-        if (!updatedUser) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        res.json(updatedUser);
-
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-//get all users also with  search and filter
-exports.getUsers = async (req, res) => {
-    try {
-        const { search, role } = req.query;
-
-        let query = {};
-
-        if (role) {
-            query.role = role.toLowerCase().trim();
-        }
-
-        if (search) {
-            query.$or = [
-                { username: { $regex: search, $options: "i" } },
-                { email: { $regex: search, $options: "i" } }
-            ];
-        }
-
-        const users = await User.find(query).select("-password");
-
-        res.json(users);
-
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-//get  user by id
-exports.getUserById = async (req, res) => {
-    try {
-        const user = await User.findById(req.params.id).select("-password");
-
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        res.json(user);
-
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};

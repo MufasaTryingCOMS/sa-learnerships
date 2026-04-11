@@ -7,11 +7,9 @@ const password = document.getElementById('newPassword');
 const confirmPassword = document.getElementById('confirmPassword');
 
 
-
-google.accounts.id.initialize({
-    client_id: "540897393879-so4uoeddh7jvu1delkd6ear8t7t9v0dt.apps.googleusercontent.com",
-    callback: receiveGoogleToken
-});
+document.getElementById("google-btn-container").onclick = () => {
+    window.location.href = "http://localhost:3000/google";
+};
 
 function isStrong(password){
     let hasLowercase = false;

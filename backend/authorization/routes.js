@@ -29,7 +29,6 @@ router.get('/google/callback',
     }
 );
 
-router.post("/registerGoogle", controller.registerGoogle);
 
 //user CRUD routes
 router.route("/")
