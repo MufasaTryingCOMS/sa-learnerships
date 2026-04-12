@@ -37,3 +37,13 @@ jobs:
           name: coverage-report
           path: backend/coverage
           retention-days: 2
+
+      # Comment coverage on the pull request
+      - name: Comment coverage
+        uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          coverage-file: backend/coverage/coverage-summary.json
+          test-script: cd backend && npm test -- --coverage
+          skip-step: none
+          threshold: 0 # Fails if this threshold is not met
