@@ -35,7 +35,7 @@ jobs:
           path: coverage/
           retention-days: 2
 
-			# Comment coverage on the pull request
+      # Comment coverage on the pull request
       - name: Jest Coverage Comment
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
