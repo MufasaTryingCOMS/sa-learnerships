@@ -4,7 +4,6 @@ on:
     branches: [main]
     types: [opened, synchronize, reopened]
 
-# Check if we really need this part here
 permissions:
   contents: read # Read code from repository
   pull-requests: write # Write comments on PRs (for coverage report)
@@ -12,6 +11,7 @@ permissions:
 jobs:
   test-coverage:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v4 # Clone the repo using the checkout GitHub action
@@ -21,9 +21,9 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm' # Cacheing npm dependencies results in faster subsequent runs
-      
+
       - name: Install dependencies
-        run: npm ci # Clean install npm ci
+        run: npm ci # Clean install
 
       - name: Run tests with coverage
         run: npm test -- --coverage --ci --maxWorkers=2
@@ -32,16 +32,15 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage
+          path: coverage/
           retention-days: 2
 
-				# STEP 7: Comment coverage on PR (most important for your workflow)
+			# Comment coverage on the pull request
       - name: Jest Coverage Comment
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           coverage-file: ./coverage/coverage-summary.json
-          base-coverage-file: ./coverage/coverage-summary.json
           test-script: npm test -- --coverage
           skip-step: none
           threshold: 0 # Fails if this threshold is not met
