@@ -29,11 +29,15 @@ router.get(
 );
 //router.post("/registerGoogle", controller.registerGoogle);
 
+const { verifyToken } = require('../middleware/auth');
+router.get('/profile', verifyToken, (req, res) => {
+    res.json({ user: req.user });
+});
 // users
 
-router.get("/", controller.getUsers);
-router.get("/:id", controller.getUserById);
-router.put("/:id", controller.updateUser);
-router.delete("/:id", controller.deleteUser);
+router.get("/", verifyToken, controller.getUsers);
+router.get("/:id", verifyToken, controller.getUserById);
+router.put("/:id", verifyToken, controller.updateUser);
+router.delete("/:id", verifyToken, controller.deleteUser);
 
 module.exports = router;

@@ -17,7 +17,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 //app.use(express.static("public"));
-app.use(express.static(__dirname + "/.."));
+//app.use(express.static(__dirname + "/.."));
 app.use(passport.initialize());
 
 passport.use(
@@ -59,6 +59,7 @@ passport.use(
 app.use('/', authRouter);
 //app.use("/api/users", userRoutes);
 app.use("/opportunities", opportunitiesRouter);
+app.use(express.static(__dirname + "/.."));
 
 app.use((req, res) => {
   res.status(404).json({ error: `${req.method} ${req.url} not found` });
