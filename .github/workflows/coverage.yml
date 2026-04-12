@@ -40,12 +40,11 @@ jobs:
           retention-days: 2
 
       # Comment coverage on the pull request
-      - name: Comment coverage
-        uses: ArtiomTr/jest-coverage-report-action@v2
+      - name: Comment Coverage
+        uses: MishaKav/jest-coverage-comment@main
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-file: coverage/coverage-summary.json
-          test-script: npm test -- --coverage
-          skip-step: none
           working-directory: backend
-          threshold: 0 # Fails if this threshold is not met
+          coverage-summary-path: coverage/coverage-summary.json
+          title: Coverage Report for this Branch
+          hide-comment: false
+          create-new-comment: true
