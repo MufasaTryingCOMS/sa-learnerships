@@ -35,15 +35,15 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage/
+          path: backend/coverage
           retention-days: 2
 
       # Comment coverage on the pull request
-      - name: Jest Coverage Comment
+      - name: Comment coverage
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-file: ./coverage/coverage-summary.json
+          coverage-file: backend/coverage/coverage-summary.json
           test-script: npm test -- --coverage
           skip-step: none
           threshold: 0 # Fails if this threshold is not met
