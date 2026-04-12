@@ -43,7 +43,7 @@ jobs:
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-file: backend/coverage/coverage-summary.json
+          coverage-file: coverage/coverage-summary.json
           test-script: npm test -- --coverage
           skip-step: none
           working-directory: backend
