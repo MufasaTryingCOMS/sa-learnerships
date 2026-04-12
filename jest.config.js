@@ -19,7 +19,8 @@ module.exports = {
         global: { branches: 0, functions: 0, lines: 0, statements: 80 },
     },
 
-    coverageReporters: ['json-summary', 'text', 'text-summary', 'lcov', 'html', 'clover'], // Output formats for coverage reports
+    collectCoverage: true,
+    coverageReporters: ['json','json-summary', 'text', 'text-summary', 'lcov', 'html', 'clover'], // Output formats for coverage reports
     coverageDirectory: 'coverage',
     testPathIgnorePatterns: ['/node_modules/', '/coverage/', '/dist/', '/build/'],
 };
