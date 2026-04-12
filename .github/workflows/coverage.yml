@@ -39,6 +39,25 @@ jobs:
           path: backend/coverage
           retention-days: 2
 
+      - name: Debug coverage file
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Listing backend/coverage directory:"
+          ls -la backend/coverage/ || echo "No coverage directory found"
+          echo ""
+          echo "Looking for coverage-summary.json:"
+          if [ -f "backend/coverage/coverage-summary.json" ]; then
+            echo "File exists!"
+            echo "First 10 lines of file:"
+            head -10 backend/coverage/coverage-summary.json
+          else
+            echo "File NOT found at backend/coverage/coverage-summary.json"
+            echo ""
+            echo "Searching entire project for coverage-summary.json:"
+            find . -name "coverage-summary.json" 2>/dev/null
+          fi
+        shell: bash
+
       # Comment coverage on the pull request
       - name: Comment coverage
         uses: ArtiomTr/jest-coverage-report-action@v2
