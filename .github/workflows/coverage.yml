@@ -29,7 +29,7 @@ jobs:
         working-directory: backend
 
       - name: Run tests with coverage
-        run: npm run test:ci -- --coverageReporters=json-summary --coverageReporters=text --coverageReporters=lcov
+        run: npm run test:ci
         working-directory: backend
 
       - name: Upload coverage report artifact
@@ -38,3 +38,11 @@ jobs:
           name: coverage-report
           path: backend/coverage
           retention-days: 2
+
+      # Comment coverage on the pull request
+      - name: Comment Coverage
+        uses: MishaKav/jest-coverage-comment@main
+        with: 
+          coverage-summary-path: backend/coverage/coverage-summary.json
+          title: Code coverage report for this Branch
+          hide-comment: false
