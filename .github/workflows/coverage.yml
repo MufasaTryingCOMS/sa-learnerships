@@ -44,6 +44,5 @@ jobs:
         uses: MishaKav/jest-coverage-comment@main
         with: 
           coverage-summary-path: backend/coverage/coverage-summary.json
-          title: Coverage Report for this Branch
+          title: Code coverage report for this Branch
           hide-comment: false
-          create-new-comment: true
