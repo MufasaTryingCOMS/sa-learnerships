@@ -44,6 +44,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           coverage-file: backend/coverage/coverage-summary.json
-          test-script: npm test -- --coverage
+          test-script: cd backend && npm test -- --coverage
           skip-step: none
           threshold: 0 # Fails if this threshold is not met
