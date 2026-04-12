@@ -28,7 +28,7 @@ jobs:
         working-directory: backend
 
       - name: Run tests with coverage
-        run: npm test -- --coverage --ci --maxWorkers=2
+        run: npm run test:ci -- --coverageReporters=json-summary --coverageReporters=text --coverageReporters=lcov
         working-directory: backend
 
       - name: Upload coverage report artifact
