@@ -8,7 +8,7 @@ const confirmPassword = document.getElementById('confirmPassword');
 
 const googleBtn = document.getElementById('google-btn');
 googleBtn.addEventListener('click', () => {
-    window.location.href = 'http://localhost:3000/google';
+    window.location.href = 'http://localhost:3000/api/users/google';
 });
 
 function isStrong(password) {

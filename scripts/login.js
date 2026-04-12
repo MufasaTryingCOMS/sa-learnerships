@@ -7,7 +7,7 @@ const rememberMe = document.getElementById('remember-me');
 const loginButton = document.getElementById('login-btn');
 const googleBtn = document.getElementById('google-btn');
 googleBtn.addEventListener('click', () => {
-    window.location.href = 'http://localhost:3000/google';
+    window.location.href = 'http://localhost:3000/api/users/google';
 });
 
 form.addEventListener('submit', async function (event) {
