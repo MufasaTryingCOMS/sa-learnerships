@@ -14,13 +14,12 @@ module.exports = {
 
     testMatch: ['**/__tests__/**/*.js', '**/?(*.)+(spec|test).js'],
 
-    // Builds fail if this threshold is not met
+    // Builds fail if this thresholds are not met
     coverageThreshold: {
         global: { branches: 0, functions: 0, lines: 0, statements: 80 },
     },
 
     coverageReporters: ['json-summary', 'text', 'text-summary', 'lcov', 'html', 'clover'], // Output formats for coverage reports
     coverageDirectory: 'coverage',
-    passWithNoTests: true,
     testPathIgnorePatterns: ['/node_modules/', '/coverage/', '/dist/', '/build/'],
 };
