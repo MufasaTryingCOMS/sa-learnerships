@@ -88,8 +88,9 @@ form.addEventListener('submit', async(event)=>{
             successMessage.textContent = "Registered successfully";
             successMessage.style.display = "block";
             const token = data.token;
+            const BASE_URL = window.location.origin;
             setTimeout(()=>{
-                 window.location.href = `http:localhost:5500/dashboard.html?token=${token}`;
+                 window.location.href = `w${BASE_URL}/adminDash.html?token{token}`;
             }, 3000);
             
         }
