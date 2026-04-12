@@ -8,7 +8,7 @@ const User = require('./common/models/User');
 const jwt = require('jsonwebtoken');
 const connectDatabase = require('./database.js');
 const opportunitiesRouter = require('./opportunities/routes.js');
-const userRoutes = require("./routes/userRoutes");
+const userRoutes = require("./authorization/routes.js");
 
 dotenv.config();
 

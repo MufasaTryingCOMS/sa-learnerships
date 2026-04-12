@@ -7,6 +7,7 @@ on:
 permissions:
   contents: read # Read code from repository
   pull-requests: write # Write comments on PRs (for coverage report)
+  checks: write 
 
 jobs:
   test-coverage:
