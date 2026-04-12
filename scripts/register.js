@@ -5,8 +5,9 @@ const lastName = document.getElementById('lastName');
 const email = document.getElementById('email');
 const password = document.getElementById('newPassword');
 const confirmPassword = document.getElementById('confirmPassword');
-
+const loadingSpinner = document.getElementById('loading-spinner');
 const googleBtn = document.getElementById('google-btn')
+
 googleBtn.addEventListener('click', () => {
     window.location.href = 'http://localhost:3000/api/users/google';
 });
@@ -77,6 +78,8 @@ form.addEventListener('submit', async(event)=>{
         const data = await response.json();
         if (data.success){
             
+            loadingSpinner.style.display = "block";
+
             sessionStorage.setItem('jwtToken', data.token);
             sessionStorage.setItem('userId', data.user.id);
             sessionStorage.setItem('username', data.user.firstName);
@@ -90,6 +93,7 @@ form.addEventListener('submit', async(event)=>{
             const token = data.token;
             const BASE_URL = window.location.origin;
             setTimeout(()=>{
+                loadingSpinner.style.display = "none";
                  window.location.href = `${BASE_URL}/adminDash.html?token=${token}`;
             }, 3000);
             
