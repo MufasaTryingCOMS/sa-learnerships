@@ -1,13 +1,7 @@
-name: Code Coverage
+name: Main Branch Code Coverage
 on:
-  pull_request:
+  push:
     branches: [main]
-    types: [opened, synchronize, reopened]
-
-permissions:
-  contents: read # Read code from repository
-  pull-requests: write # Write comments on PRs (for coverage report)
-  checks: write 
 
 jobs:
   test-coverage:
@@ -38,11 +32,3 @@ jobs:
           name: coverage-report
           path: backend/coverage
           retention-days: 2
-
-      # Comment coverage on the pull request
-      - name: Comment Coverage
-        uses: MishaKav/jest-coverage-comment@main
-        with: 
-          coverage-summary-path: backend/coverage/coverage-summary.json
-          title: Code coverage report for this Branch
-          hide-comment: false
