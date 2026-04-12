@@ -8,7 +8,7 @@ const confirmPassword = document.getElementById('confirmPassword');
 
 const googleBtn = document.getElementById('google-btn')
 googleBtn.addEventListener('click', () => {
-    window.location.href = 'http://localhost:3000/google';
+    window.location.href = 'http://localhost:3000/api/users/google';
 });
 
 function isStrong(password){
@@ -90,7 +90,7 @@ form.addEventListener('submit', async(event)=>{
             const token = data.token;
             const BASE_URL = window.location.origin;
             setTimeout(()=>{
-                 window.location.href = `w${BASE_URL}/adminDash.html?token{token}`;
+                 window.location.href = `${BASE_URL}/adminDash.html?token=${token}`;
             }, 3000);
             
         }
