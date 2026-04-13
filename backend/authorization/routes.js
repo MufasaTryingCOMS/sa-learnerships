@@ -31,17 +31,10 @@ router.get(
       sameSite: 'Lax',
       maxAge: 3600000
     })
-    res.redirect(`${process.env.CLIENT_URL}/adminDash.html`);
+    res.redirect(`${process.env.CLIENT_URL}/home.html`);
   }
 );
 
-<<<<<<< HEAD
-// usersi
-router.get("/", controller.getUsers);
-router.get("/:id", controller.getUserById);
-router.put("/:id", controller.updateUser);
-router.delete("/:id", controller.deleteUser);
-=======
 router.get('/profile', verifyToken, (req, res) => {
     res.json({ user: req.user });
 });
@@ -51,6 +44,5 @@ router.get('/', verifyToken,isAdmin, controller.getUsers);
 router.get('/:id', controller.getUserById);
 router.put('/:id', verifyToken,isAdmin, controller.updateUser);
 router.delete('/:id', verifyToken,isAdmin, controller.deleteUser);
->>>>>>> b0b2947a5264b9db265db9517c629029de78790e
 
 module.exports = router;
