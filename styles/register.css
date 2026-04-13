@@ -121,11 +121,6 @@ img {
 
 #registerBtn {
     margin-top: 10px;
-<<<<<<< HEAD
-    margin-bottom: 10px;
-    flex-direction: row; 
-=======
->>>>>>> main
 }
 
 #redirect-wrapper {
@@ -139,21 +134,9 @@ img {
     margin-right: 20px;
 }
 
-<<<<<<< HEAD
-.forgot-password {
-    font-size: 13px;
-    color: #ae3096;
-    text-decoration: none;
-    white-space: nowrap; 
-}
-
-.forgot-password:hover {
-    text-decoration: underline;
-=======
 hr {
     border: 1px solid #dfdfdf;
     margin-bottom: 30px;
->>>>>>> main
 }
 
 

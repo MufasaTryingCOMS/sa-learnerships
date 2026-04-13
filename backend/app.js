@@ -7,42 +7,22 @@ const User = require('./authorization/User.js');
 const jwt = require('jsonwebtoken');
 const connectDatabase = require('./database.js');
 const opportunitiesRouter = require('./opportunities/routes.js');
-<<<<<<< HEAD
-const userRoutes = require("./authorization/routes.js");
-=======
 const userRoutes = require('./authorization/routes.js');
->>>>>>> main
 const cookieParser = require('cookie-parser');
 
 dotenv.config();
 
 const app = express();
 
-<<<<<<< HEAD
 app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials: true
 }));
-=======
-// Middlewares
-app.use(cors({ rigin: 'http://127.0.0.1:5500', credentials: true }));
->>>>>>> main
 app.use(express.json());
 app.use(passport.initialize());
 app.use(cookieParser());
 
 passport.use(
-<<<<<<< HEAD
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${process.env.API_URL}/api/users/google/callback`
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      try {
-        let user = await User.findOne({ email: profile.emails[0].value });
-=======
     new GoogleStrategy(
         {
             clientID: process.env.GOOGLE_CLIENT_ID,
@@ -52,7 +32,6 @@ passport.use(
         async (accessToken, refreshToken, profile, done) => {
             try {
                 let user = await User.findOne({ email: profile.emails[0].value });
->>>>>>> main
 
                 if (!user) {
                     user = await User.create({
@@ -63,17 +42,9 @@ passport.use(
                     });
                 }
 
-<<<<<<< HEAD
-        const token = jwt.sign(
-          { id: user._id, email: user.email },
-          process.env.JWT_SECRET,
-          { expiresIn: "24h" }
-        );
-=======
                 const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
                     expiresIn: '24h',
                 });
->>>>>>> main
 
                 user.token = token;
                 return done(null, user);

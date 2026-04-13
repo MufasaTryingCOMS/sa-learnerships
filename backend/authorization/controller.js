@@ -56,13 +56,7 @@ exports.register = async (req, res) => {
             password: hashedPassword,
             signupMethod: 'manual',
         });
-        const token = generateAccessToken(email, user._id);
-
-        res.cookie('jwt', token, {
-            httpOnly: true,
-            secure: false, //we have to change to true after production/deployment
-            maxAge: 3600000,
-        });
+        
         const token = generateAccessToken(email, user._id);
 
         res.cookie("jwt",token, {
@@ -120,24 +114,8 @@ exports.login = async (req, res) => {
             sameSite: 'Lax',
         })
 
-        let maxAge;
-        if (rememberMe) {
-            maxAge = 604800000;
-        } else {
-            maxAge = 3600000;
-        }
-
-        res.cookie('jwt', token, {
-            httpOnly: true,
-            secure: false, //we have to change to true after production/deployment
-            maxAge: maxAge,
-        });
 
         res.status(201).json({
-<<<<<<< HEAD
-            success:true,
-            user: {id:userExists._id, firstName: userExists.firstName, lastName: userExists.lastName, email:userExists.email}
-=======
             success: true,
             user: {
                 id: userExists._id,
@@ -145,7 +123,6 @@ exports.login = async (req, res) => {
                 lastName: userExists.lastName,
                 email: userExists.email,
             },
->>>>>>> main
         });
     } catch (err) {
         res.status(500).json({

@@ -32,36 +32,22 @@ form.addEventListener('submit', async function (event) {
             },
             credentials: "include",
             body: JSON.stringify({
-<<<<<<< HEAD
-                email : email.value,
-                password : password.value,
-                rememberMe : rememberMe.checked
-            })
-        })
-    
-        const data = await response.json();
-        if (data.success){
-                setTimeout(()=>{
-                    window.location.href = "dashboard.html"; 
-                }, 3000);
-            
-=======
                 email: email.value,
                 password: password.value,
+                rememberMe: rememberMe.checked
             }),
         });
 
-        if (response.ok) {
-            const data = await response.json();
-            if (data) {
-                // The token needs to come from the server as an http only cookie
-                window.location.href = 'home.html';
-            } else {
-                errorMessage.style.display = 'block';
-                errorMessage.innerHTML = 'Something went wrong! Please try again later';
-            }
->>>>>>> main
+        const data = await response.json();
+
+        if (!response.ok) {
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = data.error || 'Login failed';
+        return;
         }
+        window.location.href = 'home.html';
+
+
     } catch (err) {
         errorMessage.style.display = 'block';
         errorMessage.textContent = 'Server error';
@@ -71,9 +57,6 @@ form.addEventListener('submit', async function (event) {
         loginButton.textContent = 'Login';
     }
 });
-<<<<<<< HEAD
-
-=======
 function loadRememberedCredentials() {
     const rememberedEmail = localStorage.getItem('rememberedEmail');
     const rememberMeChecked = localStorage.getItem('rememberMeChecked');
@@ -92,4 +75,3 @@ function loadRememberedCredentials() {
 document.addEventListener('DOMContentLoaded', () => {
     loadRememberedCredentials();
 });
->>>>>>> main

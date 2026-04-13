@@ -5,14 +5,9 @@ const lastName = document.getElementById('lastName');
 const email = document.getElementById('email');
 const password = document.getElementById('newPassword');
 const confirmPassword = document.getElementById('confirmPassword');
-<<<<<<< HEAD
 const loadingSpinner = document.getElementById('loading-spinner');
 const googleBtn = document.getElementById('google-btn')
 
-=======
-
-const googleBtn = document.getElementById('google-btn');
->>>>>>> main
 googleBtn.addEventListener('click', () => {
     window.location.href = 'http://localhost:3000/api/users/google';
 });
@@ -79,35 +74,17 @@ form.addEventListener('submit', async (event) => {
             }),
         });
 
-<<<<<<< HEAD
         const data = await response.json();
-        if (data.success){
-            
-            loadingSpinner.style.display = "block";
+
+        if (!response.ok) {
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = data.error || data.message || 'Registration failed';
+            return;
+        }
+
+        window.location.href = 'home.html';
 
         
-            const successMessage = document.getElementById('success-message');
-            successMessage.textContent = "Registered successfully";
-            successMessage.style.display = "block";
-            
-           
-            setTimeout(()=>{
-                loadingSpinner.style.display = "none";
-                 window.location.href = `http://localhost:5500/adminDash.html`;
-            }, 3000);
-            
-=======
-        if (response.status === 201) {
-            const data = await response.json();
-            if (data) {
-                // The token needs to come from the server as an http only cookie
-                window.location.href = 'home.html';
-            } else {
-                errorMessage.style.display = 'block';
-                errorMessage.innerHTML = 'Something went wrong! Please try again later';
-            }
->>>>>>> main
-        }
     } catch (err) {
         errorMessage.style.display = 'block';
         errorMessage.textContent = err.message;
