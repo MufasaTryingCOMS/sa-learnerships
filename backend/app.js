@@ -18,6 +18,7 @@ app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials: true
 }));
+app.use(express.static('public'));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(cookieParser());
