@@ -1,30 +1,38 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const authRouter = require('./authorization/routes.js');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const User = require('./common/models/User');
+const User = require('./authorization/User.js');
 const jwt = require('jsonwebtoken');
 const connectDatabase = require('./database.js');
 const opportunitiesRouter = require('./opportunities/routes.js');
+<<<<<<< HEAD
 const userRoutes = require("./authorization/routes.js");
+=======
+const userRoutes = require('./authorization/routes.js');
+>>>>>>> main
 const cookieParser = require('cookie-parser');
 
 dotenv.config();
 
 const app = express();
 
+<<<<<<< HEAD
 app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials: true
 }));
+=======
+// Middlewares
+app.use(cors({ rigin: 'http://127.0.0.1:5500', credentials: true }));
+>>>>>>> main
 app.use(express.json());
-app.use(express.static("public"));
 app.use(passport.initialize());
 app.use(cookieParser());
 
 passport.use(
+<<<<<<< HEAD
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
@@ -34,43 +42,60 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         let user = await User.findOne({ email: profile.emails[0].value });
+=======
+    new GoogleStrategy(
+        {
+            clientID: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            callbackURL: `${process.env.API_URL}/api/users/google/callback`,
+        },
+        async (accessToken, refreshToken, profile, done) => {
+            try {
+                let user = await User.findOne({ email: profile.emails[0].value });
+>>>>>>> main
 
-        if (!user) {
-          user = await User.create({
-            firstName: profile.name.givenName || "Google",
-            lastName: profile.name.familyName || "User",
-            email: profile.emails[0].value,
-            googleId: profile.id
-          });
-        }
+                if (!user) {
+                    user = await User.create({
+                        firstName: profile.name.givenName || 'Google',
+                        lastName: profile.name.familyName || 'User',
+                        email: profile.emails[0].value,
+                        googleId: profile.id,
+                    });
+                }
 
+<<<<<<< HEAD
         const token = jwt.sign(
           { id: user._id, email: user.email },
           process.env.JWT_SECRET,
           { expiresIn: "24h" }
         );
+=======
+                const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
+                    expiresIn: '24h',
+                });
+>>>>>>> main
 
-        user.token = token;
-        return done(null, user);
-      } catch (err) {
-        return done(err, null);
-      }
-    }
-  )
+                user.token = token;
+                return done(null, user);
+            } catch (err) {
+                return done(err, null);
+            }
+        },
+    ),
 );
 
 // routes
-app.use('/', authRouter);
-app.use("/api/users", userRoutes);
-app.use("/opportunities", opportunitiesRouter);
+app.use('/api/users', userRoutes);
+app.use('/opportunities', opportunitiesRouter);
 
+// Error handling middleware
 app.use((req, res) => {
-  res.status(404).json({ error: `${req.method} ${req.url} not found` });
+    res.status(404).json({ error: `${req.method} ${req.url} not found` });
 });
 
 const PORT = process.env.SERVER_PORT || 3000;
 
 app.listen(PORT, () => {
-  connectDatabase();
-  console.log(`Server running on port ${PORT}`);
+    connectDatabase();
+    console.log(`Server running on port ${PORT}`);
 });

@@ -9,7 +9,8 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Login</title>
-        <link rel="stylesheet" href="/styles/register.css" />
+        <link rel="stylesheet" href="/styles/index.css" />
+        <link rel="stylesheet" href="/styles/login.css" />
     </head>
     <body>
         <main class="wrapper">
@@ -33,19 +34,19 @@
                         </section>
                     </section>
                     <p id="error-message" class="error-message">Please enter the correct password.</p>
-                    <section class="form-footer">
-                        <label class="checkbox-wrapper">
+                    <section class="remember-me-wrapper">
+                        <section>
                             <input type="checkbox" id="remember-me" />
-                            Remember me
-                        </label>
-                        <a href="../forgotPassword/forgot-password.html" class="forgot-password">Forgot Password</a>
+                            <p>Remember me</p>
+                        </section>
+                        <a href="#" class="forgot-password">Forgot Password</a>
                     </section>
-                    <button type="submit" id="login-btn">Login</button>
-                    <button type="button" id="google-btn">Login with Google</button>
-                    <p class="bottom-message">
-                        Do you have an account?
-                        <a href="../register/register.html" class="register-link">Register</a>
-                    </p>
+                    <button type="submit" id="login-btn" class="coloured-btn">Login</button>
+                    <section id="redirect-wrapper">
+                        <p class="redirect-text">Do you have an account?</p>
+                        <a href="register.html">Register</a>
+                    </section>
+                    <button type="button" id="google-btn" class="transparent-btn">Login with Google</button>
                 </form>
             </article>
         </main>

@@ -5,77 +5,81 @@ const lastName = document.getElementById('lastName');
 const email = document.getElementById('email');
 const password = document.getElementById('newPassword');
 const confirmPassword = document.getElementById('confirmPassword');
+<<<<<<< HEAD
 const loadingSpinner = document.getElementById('loading-spinner');
 const googleBtn = document.getElementById('google-btn')
 
+=======
+
+const googleBtn = document.getElementById('google-btn');
+>>>>>>> main
 googleBtn.addEventListener('click', () => {
     window.location.href = 'http://localhost:3000/api/users/google';
 });
 
-function isStrong(password){
+function isStrong(password) {
     let hasLowercase = false;
     let hasUppercase = false;
     let hasDigit = false;
-    let SpecialSymbols = ['!','@','#','$','%','&','*'];
+    let SpecialSymbols = ['!', '@', '#', '$', '%', '&', '*'];
     let HasSpecialSymbols = false;
 
-    for (let x of password){
-        if (x >= 'A' && x <= 'Z'){
+    for (let x of password) {
+        if (x >= 'A' && x <= 'Z') {
             hasUppercase = true;
-        }
-        else if(x >= 'a' && x <= 'z'){
+        } else if (x >= 'a' && x <= 'z') {
             hasLowercase = true;
-        }
-        else if (x >='0' && x <= '9'){
+        } else if (x >= '0' && x <= '9') {
             hasDigit = true;
-        }
-        else if (SpecialSymbols.includes(x)){
+        } else if (SpecialSymbols.includes(x)) {
             HasSpecialSymbols = true;
         }
     }
 
-    return hasLowercase && hasUppercase && hasDigit && HasSpecialSymbols;   
+    return hasLowercase && hasUppercase && hasDigit && HasSpecialSymbols;
 }
 
-form.addEventListener('submit', async(event)=>{
+form.addEventListener('submit', async (event) => {
     event.preventDefault();
-     errorMessage.style.display = "none";
+    errorMessage.style.display = 'none';
 
-    if (password.value !== confirmPassword.value){
-        confirmPassword.style.border = "2px solid red";
-        errorMessage.style.display = "block";
-        errorMessage.textContent = "Passwords Do Not Match!";
+    if (password.value !== confirmPassword.value) {
+        confirmPassword.style.border = '2px solid red';
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'Passwords Do Not Match!';
         return;
     }
 
     const p = password.value;
-    if (p.length < 8){
-        errorMessage.style.display = "block";
-        errorMessage.textContent = "Password must be at least 8 characters long!";
+    if (p.length < 8) {
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'Password must be at least 8 characters long!';
         return;
     }
-    if (!isStrong(p)){
-        errorMessage.style.display = "block";
-        errorMessage.textContent = "Password is too weak. It must include at least one uppercase letter, one lowercase letter, one digit and one special symbol {'!','@','#','$','%','&','*'}";
+    if (!isStrong(p)) {
+        errorMessage.style.display = 'block';
+        errorMessage.textContent =
+            "Password is too weak. It must include at least one uppercase letter, one lowercase letter, one digit and one special symbol {'!','@','#','$','%','&','*'}";
         return;
     }
 
-    try{
-        const response = await fetch('http://localhost:3000/register', {
-            method : 'POST',
-            headers:{
-                'Content-Type':'application/json'
+    try {
+        const response = await fetch('http://localhost:3000/api/users/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
             },
             credentials: 'include',
             body: JSON.stringify({
                 firstName: firstName.value,
-                lastName: lastName.value, 
+                lastName: lastName.value,
                 email: email.value,
                 password: password.value,
-                confirmPassword: confirmPassword.value
-            })
+                confirmPassword: confirmPassword.value,
+            }),
         });
 
+<<<<<<< HEAD
         const data = await response.json();
         if (data.success){
             
@@ -92,16 +96,20 @@ form.addEventListener('submit', async(event)=>{
                  window.location.href = `http://localhost:5500/adminDash.html`;
             }, 3000);
             
+=======
+        if (response.status === 201) {
+            const data = await response.json();
+            if (data) {
+                // The token needs to come from the server as an http only cookie
+                window.location.href = 'home.html';
+            } else {
+                errorMessage.style.display = 'block';
+                errorMessage.innerHTML = 'Something went wrong! Please try again later';
+            }
+>>>>>>> main
         }
-        else{
-            errorMessage.style.display="block";
-            errorMessage.textContent = data.error;
-        }
-        
-    }catch(err){
-            errorMessage.style.display = "block";
-            errorMessage.textContent = err.message;
+    } catch (err) {
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = err.message;
     }
- 
-})
-
+});

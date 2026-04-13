@@ -119,13 +119,33 @@ img {
     text-align: center;
 }
 
+.remember-me-wrapper {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.remember-me-wrapper section {
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.remember-me-wrapper input {
+    height: 16px;
+    width: 16px;
+    margin-right: 20px;
+}
+
+.remember-me-wrapper p {
+    font-size: 16px;
+    color: #666666;
+}
+
 #registerBtn {
     margin-top: 10px;
-<<<<<<< HEAD
-    margin-bottom: 10px;
-    flex-direction: row; 
-=======
->>>>>>> main
 }
 
 #redirect-wrapper {
@@ -139,43 +159,7 @@ img {
     margin-right: 20px;
 }
 
-<<<<<<< HEAD
-.forgot-password {
-    font-size: 13px;
-    color: #ae3096;
-    text-decoration: none;
-    white-space: nowrap; 
-}
-
-.forgot-password:hover {
-    text-decoration: underline;
-=======
 hr {
     border: 1px solid #dfdfdf;
     margin-bottom: 30px;
->>>>>>> main
-}
-
-
-
-#loading-spinner {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
-    width: 40px;
-    height: 40px;
-    border: 5px solid #5f5656;
-    border-top: 5px solid #64748b;
-    border-radius: 50%;
-    
-    animation: spin 1s linear infinite;
-    z-index: 9999;
-}
-
-@keyframes spin {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
