@@ -159,7 +159,7 @@ exports.deleteUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const { role, status } = req.body;
-
+         //arrays of roles and statuses
         const allowedRoles = ['applicant', 'provider', 'admin'];
         const allowedStatus = ['active', 'inactive', 'blocked'];
 
