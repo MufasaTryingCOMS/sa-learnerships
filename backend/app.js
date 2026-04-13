@@ -8,22 +8,29 @@ const jwt = require('jsonwebtoken');
 const connectDatabase = require('./database.js');
 const opportunitiesRouter = require('./opportunities/routes.js');
 const userRoutes = require('./authorization/routes.js');
+const cookieParser = require('cookie-parser');
 
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+    cors({
+        origin: process.env.CLIENT_URL,
+        credentials: true,
+    }),
+);
 app.use(express.json());
 app.use(express.static('public'));
 app.use(passport.initialize());
+app.use(cookieParser());
 
 passport.use(
     new GoogleStrategy(
         {
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL: 'http://localhost:3000/api/users/google/callback',
+            callbackURL: `${process.env.API_URL}/api/users/google/callback`,
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
@@ -39,7 +46,7 @@ passport.use(
                 }
 
                 const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
-                    expiresIn: '30min',
+                    expiresIn: '24h',
                 });
 
                 user.token = token;
@@ -51,6 +58,7 @@ passport.use(
     ),
 );
 
+// routes
 app.use('/api/users', userRoutes);
 app.use('/opportunities', opportunitiesRouter);
 
