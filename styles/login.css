@@ -148,6 +148,9 @@ img {
     margin-top: 10px;
 }
 
+#login-btn{
+    margin-top: 20px;
+}
 #redirect-wrapper {
     margin: 20px 0px;
     display: flex;
