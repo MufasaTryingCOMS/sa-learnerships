@@ -85,11 +85,11 @@ form.addEventListener('submit', async(event)=>{
             const successMessage = document.getElementById('success-message');
             successMessage.textContent = "Registered successfully";
             successMessage.style.display = "block";
-            const token = data.token;
-            const BASE_URL = window.location.origin;
+            
+           
             setTimeout(()=>{
                 loadingSpinner.style.display = "none";
-                 window.location.href = `http://localhost:5500/adminDash.html?token=${token}`;
+                 window.location.href = `http://localhost:5500/adminDash.html`;
             }, 3000);
             
         }
