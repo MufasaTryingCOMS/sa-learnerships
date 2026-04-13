@@ -6,6 +6,7 @@ const opportunitiesNavOptions = document.getElementById('opportunities-nav-optio
 const opportunitiesNavImage = document.getElementById('opportunities-nav-image');
 const sidebarOptions = document.getElementById('sidebar-options');
 const profileElement = document.getElementById('profile-details');
+const appName = document.getElementById('app-name');
 
 // optionsElement -> The element that has the list of all the options
 // imageElement -> The element used to change the toggle image
@@ -110,6 +111,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         </section>`;
         console.log(error);
     }
+});
+
+appName.addEventListener('click', () => {
+    window.location.href = window.location.origin + '/home.html';
 });
 
 opportunitiesNav.addEventListener('click', () => {

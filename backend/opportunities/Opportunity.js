@@ -6,7 +6,7 @@ const model = mongoose.model;
 const opportunitySchema = new Schema({
     creator: {
         type: String,
-        required: [true, 'Creatore required! Please provide the creator of the opportunities'],
+        required: [true, 'Creator required! Please provide the creator of the opportunities'],
         trim: true,
     },
     title: {
