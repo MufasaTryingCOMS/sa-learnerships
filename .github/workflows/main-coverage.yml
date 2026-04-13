@@ -1,12 +1,7 @@
-name: Code Coverage
+name: Main Branch Code Coverage
 on:
-  pull_request:
+  push:
     branches: [main]
-    types: [opened, synchronize, reopened]
-
-permissions:
-  contents: read # Read code from repository
-  pull-requests: write # Write comments on PRs (for coverage report)
 
 jobs:
   test-coverage:
@@ -21,26 +16,19 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm' # Cacheing npm dependencies results in faster subsequent runs
+          cache-dependency-path: backend/package-lock.json
 
       - name: Install dependencies
         run: npm ci # Clean install
+        working-directory: backend
 
       - name: Run tests with coverage
-        run: npm test -- --coverage --ci --maxWorkers=2
+        run: npm run test:ci
+        working-directory: backend
 
       - name: Upload coverage report artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage/
+          path: backend/coverage
           retention-days: 2
-
-      # Comment coverage on the pull request
-      - name: Jest Coverage Comment
-        uses: ArtiomTr/jest-coverage-report-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-file: ./coverage/coverage-summary.json
-          test-script: npm test -- --coverage
-          skip-step: none
-          threshold: 0 # Fails if this threshold is not met

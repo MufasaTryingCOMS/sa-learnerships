@@ -1,6 +1,6 @@
-// This dummy test prevents Jest from failing with "No tests found" error and does nothing
+// Dummy test case that always pass so that we don't get the 'no tests found' error from jest
 describe('Dummy', () => {
-    test('always passes', () => {
-        expect(true).toBe(true);
+    test('should always pass', () => {
+      	expect(true).toBe(true);
     });
 });
