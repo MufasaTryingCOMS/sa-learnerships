@@ -25,6 +25,9 @@ router.get(
   }),
   (req, res) => {
     const token = req.user.token;
+<<<<<<< HEAD
+    res.redirect(`http://localhost:3000/adminDash.html?token=${token}`);
+=======
     res.cookie("jwt", token, {
       httpOnly: true,
       secure: false, //we have to change it to true in production
@@ -32,9 +35,23 @@ router.get(
       maxAge: 3600000
     })
     res.redirect(`${process.env.CLIENT_URL}/home.html`);
+>>>>>>> a2c4649ad6b7d7394caebd005660ce5967bf95fc
   }
 );
+//router.post("/registerGoogle", controller.registerGoogle);
 
+<<<<<<< HEAD
+const { verifyToken } = require('../middleware/auth');
+router.get('/profile', verifyToken, (req, res) => {
+    res.json({ user: req.user });
+});
+// users
+
+router.get("/", verifyToken, controller.getUsers);
+router.get("/:id", verifyToken, controller.getUserById);
+router.put("/:id", verifyToken, controller.updateUser);
+router.delete("/:id", verifyToken, controller.deleteUser);
+=======
 router.get('/profile', verifyToken, (req, res) => {
     res.json({ user: req.user });
 });
@@ -44,5 +61,6 @@ router.get('/', verifyToken,isAdmin, controller.getUsers);
 router.get('/:id', controller.getUserById);
 router.put('/:id', verifyToken,isAdmin, controller.updateUser);
 router.delete('/:id', verifyToken,isAdmin, controller.deleteUser);
+>>>>>>> a2c4649ad6b7d7394caebd005660ce5967bf95fc
 
 module.exports = router;

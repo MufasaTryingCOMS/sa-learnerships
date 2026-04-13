@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 
 const { isStrong } = require('../../scripts/common_functions.js');
 
+
+
 function generateAccessToken(email, userId) {
     const secret = process.env.JWT_SECRET || 'your_secret_key_here';
     return jwt.sign({ email, userId }, secret, { expiresIn: '24h' });
