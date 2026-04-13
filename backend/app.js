@@ -14,11 +14,11 @@ dotenv.config();
 
 const app = express();
 
-// Middlewares
 app.use(cors({
-    origin: 'http://127.0.0.1:5500', // your frontend origin
-    credentials: true
-}));app.use(express.json());
+  origin: process.env.CLIENT_URL,
+  credentials: true
+}));
+app.use(express.json());
 app.use(passport.initialize());
 app.use(cookieParser());
 

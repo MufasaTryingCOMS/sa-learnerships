@@ -5,8 +5,9 @@ const lastName = document.getElementById('lastName');
 const email = document.getElementById('email');
 const password = document.getElementById('newPassword');
 const confirmPassword = document.getElementById('confirmPassword');
+const loadingSpinner = document.getElementById('loading-spinner');
+const googleBtn = document.getElementById('google-btn')
 
-const googleBtn = document.getElementById('google-btn');
 googleBtn.addEventListener('click', () => {
     window.location.href = 'http://localhost:3000/api/users/google';
 });
@@ -73,16 +74,17 @@ form.addEventListener('submit', async (event) => {
             }),
         });
 
-        if (response.status === 201) {
-            const data = await response.json();
-            if (data) {
-                // The token needs to come from the server as an http only cookie
-                window.location.href = 'home.html';
-            } else {
-                errorMessage.style.display = 'block';
-                errorMessage.innerHTML = 'Something went wrong! Please try again later';
-            }
+        const data = await response.json();
+
+        if (!response.ok) {
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = data.error || data.message || 'Registration failed';
+            return;
         }
+
+        window.location.href = 'home.html';
+
+        
     } catch (err) {
         errorMessage.style.display = 'block';
         errorMessage.textContent = err.message;

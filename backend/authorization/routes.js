@@ -18,20 +18,21 @@ router.get(
 );
 
 router.get(
-    '/google/callback',
-    passport.authenticate('google', {
-        session: false,
-        failureRedirect: '/',
-    }),
-    (req, res) => {
-        const token = req.user.token;
-        res.cookie('jwt', token, {
-            httpOnly: true,
-            secure: false, //we have to change it to true in production
-            maxAge: 3600000,
-        });
-        res.redirect(`${process.env.CLIENT_URL}/adminDash.html`);
-    },
+  "/google/callback",
+  passport.authenticate("google", {
+    session: false,
+    failureRedirect: "/"
+  }),
+  (req, res) => {
+    const token = req.user.token;
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: false, //we have to change it to true in production
+      sameSite: 'Lax',
+      maxAge: 3600000
+    })
+    res.redirect(`${process.env.CLIENT_URL}/home.html`);
+  }
 );
 
 router.get('/profile', verifyToken, (req, res) => {
