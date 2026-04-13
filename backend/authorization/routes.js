@@ -24,7 +24,12 @@ router.get(
   }),
   (req, res) => {
     const token = req.user.token;
-    res.redirect(`http://localhost:5500/dashboard.html?token=${token}`);
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: false, //we have to change it to true in production
+      maxAge: 3600000
+    })
+    res.redirect(`${process.env.CLIENT_URL}/adminDash.html`);
   }
 );
 
