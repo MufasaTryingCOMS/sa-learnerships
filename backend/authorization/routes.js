@@ -24,7 +24,7 @@ router.get(
   }),
   (req, res) => {
     const token = req.user.token;
-    res.redirect(`http://localhost:5500/adminDash.html?token=${token}`);
+    res.redirect(`${process.env.CLIENT_URL}/adminDash.html?token=${token}`);
   }
 );
 

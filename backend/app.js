@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 const connectDatabase = require('./database.js');
 const opportunitiesRouter = require('./opportunities/routes.js');
 const userRoutes = require("./authorization/routes.js");
+const cookieParser = require('cookie-parser');
 
 dotenv.config();
 
@@ -18,13 +19,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 app.use(passport.initialize());
+app.use(cookieParser());
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/api/users/google/callback"
+      callbackURL: `${process.env.API_URL}/api/users/google/callback`
     },
     async (accessToken, refreshToken, profile, done) => {
       try {

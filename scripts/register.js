@@ -94,7 +94,7 @@ form.addEventListener('submit', async(event)=>{
             const BASE_URL = window.location.origin;
             setTimeout(()=>{
                 loadingSpinner.style.display = "none";
-                 window.location.href = `${BASE_URL}/adminDash.html?token=${token}`;
+                 window.location.href = `http://localhost:5500/adminDash.html?token=${token}`;
             }, 3000);
             
         }
