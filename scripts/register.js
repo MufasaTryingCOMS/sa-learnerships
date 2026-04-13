@@ -78,6 +78,7 @@ form.addEventListener('submit', async (event) => {
             if (data) {
                 // The token needs to come from the server as an http only cookie
                 window.location.href = 'home.html';
+                localStorage.setItem('userId', data.user.id);
             } else {
                 errorMessage.style.display = 'block';
                 errorMessage.innerHTML = 'Something went wrong! Please try again later';

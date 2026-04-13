@@ -39,8 +39,8 @@ router.get('/profile', verifyToken, (req, res) => {
 });
 
 // users
-router.get('/', verifyToken, controller.getUsers);
-router.get('/:id', verifyToken, controller.getUserById);
+router.get('/', controller.getUsers);
+router.get('/:id', controller.getUserById);
 router.put('/:id', verifyToken, controller.updateUser);
 router.delete('/:id', verifyToken, controller.deleteUser);
 
