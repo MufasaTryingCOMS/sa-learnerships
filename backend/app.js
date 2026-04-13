@@ -7,12 +7,8 @@ const User = require('./authorization/User.js');
 const jwt = require('jsonwebtoken');
 const connectDatabase = require('./database.js');
 const opportunitiesRouter = require('./opportunities/routes.js');
-<<<<<<< HEAD
-//const userRoutes = require("./routes/userRoutes");
-=======
 const userRoutes = require('./authorization/routes.js');
 const cookieParser = require('cookie-parser');
->>>>>>> a2c4649ad6b7d7394caebd005660ce5967bf95fc
 
 dotenv.config();
 
@@ -23,26 +19,10 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-<<<<<<< HEAD
-//app.use(express.static("public"));
-//app.use(express.static(__dirname + "/.."));
-=======
->>>>>>> a2c4649ad6b7d7394caebd005660ce5967bf95fc
 app.use(passport.initialize());
 app.use(cookieParser());
 
 passport.use(
-<<<<<<< HEAD
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/google/callback"
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      try {
-        let user = await User.findOne({ email: profile.emails[0].value });
-=======
     new GoogleStrategy(
         {
             clientID: process.env.GOOGLE_CLIENT_ID,
@@ -52,7 +32,6 @@ passport.use(
         async (accessToken, refreshToken, profile, done) => {
             try {
                 let user = await User.findOne({ email: profile.emails[0].value });
->>>>>>> a2c4649ad6b7d7394caebd005660ce5967bf95fc
 
                 if (!user) {
                     user = await User.create({
@@ -77,15 +56,8 @@ passport.use(
 );
 
 // routes
-<<<<<<< HEAD
-app.use('/', authRouter);
-//app.use("/api/users", userRoutes);
-app.use("/opportunities", opportunitiesRouter);
-app.use(express.static(__dirname + "/.."));
-=======
 app.use('/api/users', userRoutes);
 app.use('/opportunities', opportunitiesRouter);
->>>>>>> a2c4649ad6b7d7394caebd005660ce5967bf95fc
 
 // Error handling middleware
 app.use((req, res) => {
