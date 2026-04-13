@@ -7,7 +7,7 @@ const rememberMe = document.getElementById('remember-me');
 const loginButton = document.getElementById('login-btn');
 const googleBtn = document.getElementById('google-btn')
 googleBtn.addEventListener('click', () => {
-    window.location.href = 'http://localhost:3000/google';
+    window.location.href = 'http://localhost:3000/api/users/google';
 });
 
 form.addEventListener('submit', async function (event) {
@@ -30,34 +30,20 @@ form.addEventListener('submit', async function (event) {
             headers:{
                 'Content-Type':'application/json'
             },
+            credentials: "include",
             body: JSON.stringify({
                 email : email.value,
                 password : password.value,
+                rememberMe : rememberMe.checked
             })
-        });
+        })
     
         const data = await response.json();
         if (data.success){
-            if(data.token){
-                
-                if (rememberMe && rememberMe.checked) {
-                    localStorage.setItem('jwtToken', data.token);
-                    localStorage.setItem('rememberedEmail', email.value);
-                    localStorage.setItem('rememberMeChecked', 'true');
-                } else {
-                    sessionStorage.setItem('jwtToken', data.token);
-                    localStorage.removeItem('rememberedEmail');
-                    localStorage.setItem('rememberMeChecked', 'false');
-                }
-                
-                sessionStorage.setItem('userId', data.user.id);
-                sessionStorage.setItem('username', data.user.firstName);
-                sessionStorage.setItem('userEmail', data.user.email);
-                sessionStorage.setItem('isLoggedIn', 'true');
                 setTimeout(()=>{
                     window.location.href = "dashboard.html"; 
                 }, 3000);
-            }
+            
         }
         
         else{
@@ -77,21 +63,4 @@ form.addEventListener('submit', async function (event) {
         loginButton.textContent = "Login";
     }
 });
-function loadRememberedCredentials() {
-    const rememberedEmail = localStorage.getItem('rememberedEmail');
-    const rememberMeChecked = localStorage.getItem('rememberMeChecked');
-    
-    if (rememberedEmail && rememberMeChecked === 'true') {
-        email.value = rememberedEmail;
-        //password.value = rememberedPassword;
-        
-        if (rememberMe) {
-            rememberMe.checked = true;
-        }
-        password.focus();
-    }
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadRememberedCredentials();
-});

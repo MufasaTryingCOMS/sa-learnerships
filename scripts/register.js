@@ -66,6 +66,7 @@ form.addEventListener('submit', async(event)=>{
             headers:{
                 'Content-Type':'application/json'
             },
+            credentials: true,
             body: JSON.stringify({
                 firstName: firstName.value,
                 lastName: lastName.value, 
@@ -80,13 +81,7 @@ form.addEventListener('submit', async(event)=>{
             
             loadingSpinner.style.display = "block";
 
-            sessionStorage.setItem('jwtToken', data.token);
-            sessionStorage.setItem('userId', data.user.id);
-            sessionStorage.setItem('username', data.user.firstName);
-            sessionStorage.setItem('userEmail', data.user.email);
-            sessionStorage.setItem('isLoggedIn', 'true');
-
-
+        
             const successMessage = document.getElementById('success-message');
             successMessage.textContent = "Registered successfully";
             successMessage.style.display = "block";

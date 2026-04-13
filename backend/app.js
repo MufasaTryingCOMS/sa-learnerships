@@ -15,7 +15,10 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.static("public"));
 app.use(passport.initialize());
@@ -44,7 +47,7 @@ passport.use(
         const token = jwt.sign(
           { id: user._id, email: user.email },
           process.env.JWT_SECRET,
-          { expiresIn: "30min" }
+          { expiresIn: "24h" }
         );
 
         user.token = token;

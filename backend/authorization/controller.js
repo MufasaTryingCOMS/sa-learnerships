@@ -57,6 +57,13 @@ exports.register = async (req,res) =>{
             password:hashedPassword,
             signupMethod: "manual"
         });
+        const token = generateAccessToken(email, user._id);
+
+        res.cookie("jwt",token, {
+            httpOnly: true,
+            secure: false, //we have to change to true after production/deployment
+            maxAge: 3600000
+        })
 
         res.status(201).json({
             success:true,
@@ -87,13 +94,28 @@ exports.login = async (req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({ error: "Invalid Credentials" });
         }
-
+        const rememberMe = req.body.rememberMe;
         const token = generateAccessToken(email, userExists._id);
+        
+
+        let maxAge;
+        if (rememberMe){
+            maxAge = 604800000;
+        }
+        else{
+            maxAge = 3600000;
+        }
+
+
+        res.cookie("jwt",token, {
+            httpOnly: true,
+            secure: false, //we have to change to true after production/deployment
+            maxAge: maxAge
+        })
 
         res.status(201).json({
             success:true,
-            user: {id:userExists._id, firstName: userExists.firstName, lastName: userExists.lastName, email:userExists.email},
-            token
+            user: {id:userExists._id, firstName: userExists.firstName, lastName: userExists.lastName, email:userExists.email}
         });
 
     }
