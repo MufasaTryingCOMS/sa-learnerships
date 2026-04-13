@@ -1,13 +1,7 @@
-name: Code Coverage
+name: Main Branch Code Coverage
 on:
-  pull_request:
+  push:
     branches: [main]
-    types: [opened, synchronize, reopened]
-
-permissions:
-  contents: read # Read code from repository
-  pull-requests: write # Write comments on PRs (for coverage report)
-  checks: write 
 
 jobs:
   test-coverage:
@@ -29,7 +23,7 @@ jobs:
         working-directory: backend
 
       - name: Run tests with coverage
-        run: npm run test:ci -- --coverageReporters=json-summary --coverageReporters=text --coverageReporters=lcov
+        run: npm run test:ci
         working-directory: backend
 
       - name: Upload coverage report artifact
