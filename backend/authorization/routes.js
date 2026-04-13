@@ -1,8 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const passport = require('passport');
-const { verifyToken } = require('../middleware/auth');
-const controller = require('./controller');
+const { verifyToken } = require('../middlewares/auth.js');
+const controller = require('./controller.js');
+
+const router = express.Router();
 
 // auth
 router.post('/register', controller.register);

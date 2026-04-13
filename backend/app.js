@@ -3,7 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const User = require('./common/models/User');
+const User = require('./authorization/User.js');
 const jwt = require('jsonwebtoken');
 const connectDatabase = require('./database.js');
 const opportunitiesRouter = require('./opportunities/routes.js');
@@ -14,14 +14,9 @@ dotenv.config();
 
 const app = express();
 
-app.use(
-    cors({
-        origin: process.env.CLIENT_URL,
-        credentials: true,
-    }),
-);
+// Middlewares
+app.use(cors({ rigin: 'http://127.0.0.1:5500', credentials: true }));
 app.use(express.json());
-app.use(express.static('public'));
 app.use(passport.initialize());
 app.use(cookieParser());
 
@@ -62,6 +57,7 @@ passport.use(
 app.use('/api/users', userRoutes);
 app.use('/opportunities', opportunitiesRouter);
 
+// Error handling middleware
 app.use((req, res) => {
     res.status(404).json({ error: `${req.method} ${req.url} not found` });
 });

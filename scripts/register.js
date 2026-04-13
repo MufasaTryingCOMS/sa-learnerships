@@ -63,6 +63,7 @@ form.addEventListener('submit', async (event) => {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify({
                 firstName: firstName.value,
                 lastName: lastName.value,

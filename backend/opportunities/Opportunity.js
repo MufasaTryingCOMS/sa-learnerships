@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
+const User = require('../authorization/User.js');
 const Schema = mongoose.Schema;
 const model = mongoose.model;
 
 const opportunitySchema = new Schema({
+    creator: {
+        type: User,
+        required: [true, 'Creatore required! Please provide the creator of the opportunities'],
+    },
     title: {
         type: String,
         required: [true, 'Title required! Please provide the title of the opportunity'],
