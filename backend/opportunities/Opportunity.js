@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
-const User = require('../authorization/User.js');
 const Schema = mongoose.Schema;
 const model = mongoose.model;
 
+// The creator attribute should be a mongoose User _id
 const opportunitySchema = new Schema({
     creator: {
-        type: User,
+        type: String,
         required: [true, 'Creatore required! Please provide the creator of the opportunities'],
+        trim: true,
     },
     title: {
         type: String,
