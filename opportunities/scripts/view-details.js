@@ -10,10 +10,10 @@ const stipend = document.getElementById('stipend');
 const duration = document.getElementById('duration');
 const locationElement = document.getElementById('location');
 const closingDate = document.getElementById('closing-date');
+const backButton = document.getElementById('back-btn');
 const approveButton = document.getElementById('approve-btn');
 const rejectButton = document.getElementById('reject-btn');
 
-let currentStatus = '';
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             pageTitle.innerHTML = 'Opportunity | ' + data.title;
             title.innerHTML = data.title;
             statusElement.innerHTML = data.status;
-             currentStatus = data.status;
+            currentStatus = data.status;
 
             if (data.status === 'Approved') {
                 approveButton.disabled = true;
@@ -84,14 +84,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 approveButton.addEventListener('click', async () => {
+    const id = new URLSearchParams(window.location.search).get('id');
+
     if (currentStatus === 'Approved') {
         alert('This opportunity is already approved');
         return;
     }
 
-    const id = new URLSearchParams(window.location.search).get('id');
-
     try {
+
         approveButton.disabled = true;
         approveButton.textContent = 'Approving...';
 
@@ -107,9 +108,9 @@ approveButton.addEventListener('click', async () => {
             approveButton.textContent = 'Approved';
             rejectButton.disabled = false;
             statusElement.innerHTML = 'Approved';
-            currentStatus = 'Approved';
+            approveButton.style.cursor = 'not-allowed';
             alert('Opportunity approved successfully!');
-        } else {
+        }else {
             approveButton.disabled = false;
             approveButton.textContent = 'Approve';
             alert(data.error);
@@ -123,12 +124,12 @@ approveButton.addEventListener('click', async () => {
 });
 
 rejectButton.addEventListener('click', async () => {
+    const id = new URLSearchParams(window.location.search).get('id');
+    
     if (currentStatus === 'Rejected') {
         alert('This opportunity is already rejected');
         return;
     }
-
-    const id = new URLSearchParams(window.location.search).get('id');
 
     try {
         rejectButton.disabled = true;
@@ -147,8 +148,9 @@ rejectButton.addEventListener('click', async () => {
             approveButton.disabled = false;
             statusElement.innerHTML = 'Rejected';
             currentStatus = 'Rejected';
+            rejectButton.style.cursor = 'not-allowed';
             alert('Opportunity rejected successfully!');
-        } else {
+        }else {
             rejectButton.disabled = false;
             rejectButton.textContent = 'Reject';
             alert(data.error);
@@ -158,5 +160,16 @@ rejectButton.addEventListener('click', async () => {
         rejectButton.disabled = false;
         rejectButton.textContent = 'Reject';
         alert('Something went wrong! Please try again later');
+    }
+});
+
+
+backButton.addEventListener('click', () => {
+    if (currentStatus === 'Approved') {
+        window.location.href = '/opportunities/approved.html';
+    } else if (currentStatus === 'Rejected') {
+        window.location.href = '/opportunities/rejected.html';
+    } else {
+        window.location.href = '/opportunities/pending.html';
     }
 });

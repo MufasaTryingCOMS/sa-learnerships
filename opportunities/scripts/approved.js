@@ -13,17 +13,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         const data = await response.json(); 
         if (response.ok) {
             pageContainer.style.display = 'block';
-            data.opportunities.forEach(({ title, location, closingDate }) => {
+            data.opportunities.forEach(({_id, title, location, closingDate }) => {
                 opportunities.innerHTML += `<li>
                     <h3>${title}</h3>   
                     <section class="opportunity-details">
                         <section>
                             <p><b>Location:</b> ${location || 'Not provided'}<p>
                             <p><b>Closes:</b> ${closingDate.slice(0, 10)}</p>   
-                        </section>
+                            <button class="view-btn" data-id="${_id}">View Details</button>
+                            </section>
                     </section>
                 </li>`;
             }   );
+            
+            opportunities.addEventListener('click', (event) => {
+                if (event.target.classList.contains('view-btn')) {
+                    const id = event.target.getAttribute('data-id');
+                    window.location.href = '../opportunities/view-details.html?id=' + id;
+                }
+            });
         }
     } catch (error) {   
         pageState.style.display = 'flex';

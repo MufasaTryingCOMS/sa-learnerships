@@ -8,7 +8,7 @@ const User = require('./common/models/User');
 const jwt = require('jsonwebtoken');
 const connectDatabase = require('./database.js');
 const opportunitiesRouter = require('./opportunities/routes.js');
-const userRoutes = require("./authorization/routes.js");
+//const userRoutes = require("./authorization/routes.js");
 
 dotenv.config();
 
@@ -17,8 +17,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
-app.use(passport.initialize());
+//app.use(passport.initialize());
 
+/*
 passport.use(
   new GoogleStrategy(
     {
@@ -53,11 +54,13 @@ passport.use(
     }
   )
 );
+*/
 
 // routes
-app.use('/', authRouter);
-app.use("/api/users", userRoutes);
 app.use("/opportunities", opportunitiesRouter);
+//app.use("/api/users", userRoutes);
+app.use('/', authRouter);
+
 
 app.use((req, res) => {
   res.status(404).json({ error: `${req.method} ${req.url} not found` });
