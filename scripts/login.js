@@ -30,9 +30,11 @@ form.addEventListener('submit', async function (event) {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify({
                 email: email.value,
                 password: password.value,
+                rememberMe: rememberMe.checked,
             }),
         });
 
@@ -42,10 +44,10 @@ form.addEventListener('submit', async function (event) {
                 // The token needs to come from the server as an http only cookie
                 window.location.href = 'home.html';
                 localStorage.setItem('userId', data.user.id);
-            } else {
-                errorMessage.style.display = 'block';
-                errorMessage.innerHTML = 'Something went wrong! Please try again later';
             }
+        } else {
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = data.error || 'Login failed';
         }
     } catch (err) {
         errorMessage.style.display = 'block';

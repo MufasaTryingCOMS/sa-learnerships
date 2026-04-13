@@ -56,13 +56,15 @@ exports.register = async (req, res) => {
             password: hashedPassword,
             signupMethod: 'manual',
         });
+        
         const token = generateAccessToken(email, user._id);
 
-        res.cookie('jwt', token, {
+        res.cookie("jwt",token, {
             httpOnly: true,
             secure: false, //we have to change to true after production/deployment
-            maxAge: 3600000,
-        });
+            sameSite: 'Lax', 
+            maxAge: 3600000
+        })
 
         res.status(201).json({
             success: true,
@@ -94,19 +96,24 @@ exports.login = async (req, res) => {
         }
         const rememberMe = req.body.rememberMe;
         const token = generateAccessToken(email, userExists._id);
+        
 
         let maxAge;
-        if (rememberMe) {
+        if (rememberMe){
             maxAge = 604800000;
-        } else {
+        }
+        else{
             maxAge = 3600000;
         }
 
-        res.cookie('jwt', token, {
+
+        res.cookie("jwt",token, {
             httpOnly: true,
-            secure: false, //we have to change to true after production/deployment
+            secure: false,  //we have to change to true after production/deployment
             maxAge: maxAge,
-        });
+            sameSite: 'Lax',
+        })
+
 
         res.status(201).json({
             success: true,
@@ -152,7 +159,7 @@ exports.deleteUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const { role, status } = req.body;
-
+         //arrays of roles and statuses
         const allowedRoles = ['applicant', 'provider', 'admin'];
         const allowedStatus = ['active', 'inactive', 'blocked'];
 

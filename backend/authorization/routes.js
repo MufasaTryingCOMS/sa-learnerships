@@ -1,6 +1,6 @@
 const express = require('express');
 const passport = require('passport');
-const { verifyToken } = require('../middlewares/auth.js');
+const { verifyToken, isAdmin } = require('../middlewares/auth.js');
 const controller = require('./controller.js');
 
 const router = express.Router();
@@ -28,9 +28,10 @@ router.get(
         res.cookie('jwt', token, {
             httpOnly: true,
             secure: false, //we have to change it to true in production
+            sameSite: 'Lax',
             maxAge: 3600000,
         });
-        res.redirect(`${process.env.CLIENT_URL}/adminDash.html`);
+        res.redirect(`${process.env.CLIENT_URL}/home.html`);
     },
 );
 
@@ -39,9 +40,9 @@ router.get('/profile', verifyToken, (req, res) => {
 });
 
 // users
-router.get('/', controller.getUsers);
+router.get('/', verifyToken, isAdmin, controller.getUsers);
 router.get('/:id', controller.getUserById);
-router.put('/:id', verifyToken, controller.updateUser);
-router.delete('/:id', verifyToken, controller.deleteUser);
+router.put('/:id', verifyToken, isAdmin, controller.updateUser);
+router.delete('/:id', verifyToken, isAdmin, controller.deleteUser);
 
 module.exports = router;

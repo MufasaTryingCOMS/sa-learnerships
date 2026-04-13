@@ -25,4 +25,19 @@ const verifyToken = (req, res, next) => {
     }
 };
 
-module.exports = { authMiddleware, verifyToken };
+//middleware to check if the user is admin or not
+const isAdmin = (req, res, next) => {
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ message: 'Access denied' });
+    }
+
+    next();
+};
+//middleware to check if the user is provider or not
+const isProvider = (req, res, next) => {
+    if (req.user.role !== 'provider') {
+        return res.status(403).json({ message: 'Access denied' });
+    }
+    next();
+};
+module.exports = { authMiddleware, verifyToken, isAdmin, isProvider };
