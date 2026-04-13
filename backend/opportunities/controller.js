@@ -8,13 +8,6 @@ exports.createOpportunity = async (req, res) => {
             });
         }
 
-        const creator = req.user.id;
-        if (!creator) {
-            return res.status(400).json({
-                error: 'Creator required! Please provide the creator of the opportunities',
-            });
-        }
-
         const title = req.body.title;
         const description = req.body.description;
         const requirements = req.body.requirements;
@@ -38,7 +31,6 @@ exports.createOpportunity = async (req, res) => {
         // TODO: Check if stipend and duration are numbers, the location is a valid location, the closing date is a valid date,
 
         const opportunity = await Opportunity.create({
-            creator,
             title,
             description,
             requirements,
