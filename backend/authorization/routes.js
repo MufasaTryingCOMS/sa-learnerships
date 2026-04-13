@@ -40,7 +40,7 @@ router.get('/profile', verifyToken, (req, res) => {
 
 // users
 router.get('/', verifyToken,isAdmin, controller.getUsers);
-router.get('/:id', controller.getUserById);
+router.get('/:id',  controller.getUserById);
 router.put('/:id', verifyToken,isAdmin, controller.updateUser);
 router.delete('/:id', verifyToken,isAdmin, controller.deleteUser);
 
