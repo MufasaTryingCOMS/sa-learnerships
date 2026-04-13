@@ -33,7 +33,7 @@ router.get(
   }
 );
 
-// users
+// usersi
 router.get("/", controller.getUsers);
 router.get("/:id", controller.getUserById);
 router.put("/:id", controller.updateUser);

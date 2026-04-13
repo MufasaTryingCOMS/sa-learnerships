@@ -62,6 +62,7 @@ exports.register = async (req,res) =>{
         res.cookie("jwt",token, {
             httpOnly: true,
             secure: false, //we have to change to true after production/deployment
+            sameSite: 'Lax', 
             maxAge: 3600000
         })
 
@@ -109,8 +110,9 @@ exports.login = async (req, res) => {
 
         res.cookie("jwt",token, {
             httpOnly: true,
-            secure: false, //we have to change to true after production/deployment
-            maxAge: maxAge
+            secure: false,  //we have to change to true after production/deployment
+            maxAge: maxAge,
+            sameSite: 'Lax',
         })
 
         res.status(201).json({
