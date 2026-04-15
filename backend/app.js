@@ -59,7 +59,7 @@ app.use('/opportunities', opportunitiesRouter);
 
 // Health status check route (For confirming that the app is up and running when deployed)
 app.use('/health', (req, res) => {
-    res.status(200).json({ status: 'Healthy' })
+    res.status(200).json({ status: 'healthy' })
 })
 
 // Error handling middleware

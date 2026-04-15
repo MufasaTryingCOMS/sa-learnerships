@@ -27,5 +27,5 @@ jobs:
         with:
           app-name: salearnerships
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: .
+          package: ./backend
 
