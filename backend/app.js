@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const connectDatabase = require('./database.js');
 const opportunitiesRouter = require('./opportunities/routes.js');
 const userRoutes = require('./authorization/routes.js');
+const applicationsRouter = require('./applications/routes.js');
 const cookieParser = require('cookie-parser');
 
 dotenv.config();
@@ -56,6 +57,7 @@ passport.use(
 // routes
 app.use('/api/users', userRoutes);
 app.use('/opportunities', opportunitiesRouter);
+app.use('/applications', applicationsRouter);
 
 // Health status check route (For confirming that the app is up and running when deployed)
 app.use('/health', (req, res) => {

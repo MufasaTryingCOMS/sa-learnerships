@@ -112,6 +112,7 @@ exports.login = async (req, res) => {
 
         res.status(201).json({
             success: true,
+            token: token,
             user: {
                 id: userExists._id,
                 firstName: userExists.firstName,
